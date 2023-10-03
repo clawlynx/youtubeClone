@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.active {
+  @apply bg-neutral-950;
+}
+
+.bigsidebar {
+  height: 92vh;
+  min-width: 15rem;
+}
+::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 5rem;
+}
+.videodiv {
+  height: 70vh;
+}
+.history {
+  width: 85vw;
+}
+.channelpage {
+  width: 85vw;
+}
