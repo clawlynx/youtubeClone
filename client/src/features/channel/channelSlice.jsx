@@ -5,6 +5,7 @@ const initialState = {
   editChannel: false,
   hasChannel: false,
   channelDetails: null,
+  channelVideos: [],
 };
 
 const channelSlice = createSlice({
@@ -26,6 +27,9 @@ const channelSlice = createSlice({
     toggleEditChannel: (state) => {
       state.editChannel = !state.editChannel;
     },
+    setChannelVideos: (state, { payload }) => {
+      state.channelVideos = payload;
+    },
   },
 });
 
@@ -35,6 +39,7 @@ export const {
   channelok,
   setChannelDetails,
   toggleEditChannel,
+  setChannelVideos,
 } = channelSlice.actions;
 
 export default channelSlice.reducer;

@@ -22,7 +22,6 @@ export default function HomeVideo() {
   const { videos } = useSelector((state) => state.videoRender);
   const { showBigBar } = useSelector((state) => state.toggleSideBar);
 
-  console.log(videos);
   return (
     <>
       <div className=" flex bg-neutral-950 border-b border-neutral-800 p-2 justify-between mx-0 mb-2 negz">

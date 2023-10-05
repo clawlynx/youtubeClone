@@ -21,6 +21,7 @@ export default function CreateChannel() {
       channelDescription,
     };
     const { data } = await axios.post("/api/channel/create", channelData);
+
     if (data) {
       console.log("channel created");
       dispatch(setChannelDetails(data));

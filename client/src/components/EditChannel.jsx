@@ -24,9 +24,10 @@ export default function EditChannel() {
       channelDescription,
     };
     const { data } = await axios.patch("/api/channel/edit", channelData);
+
     if (data) {
       dispatch(setChannelDetails(data));
-      console.log("channel updated");
+
       dispatch(toggleEditChannel());
 
       navigate("/");

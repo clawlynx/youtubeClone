@@ -8,12 +8,14 @@ import axios from "axios";
 import { assignUser } from "../features/auth/authSlice";
 import { channelok, setChannelDetails } from "../features/channel/channelSlice";
 import EditChannel from "../components/EditChannel";
+import UploadVideo from "../components/UploadVideo";
 
 export default function Home() {
   const { showBigBar, singleVideoPage } = useSelector(
     (state) => state.toggleSideBar
   );
   const { editChannel } = useSelector((state) => state.channel);
+  const { uploadVideo } = useSelector((state) => state.yourVideos);
   const dispatch = useDispatch();
 
   async function fetchUser() {
@@ -39,6 +41,7 @@ export default function Home() {
   return (
     <>
       {editChannel && <EditChannel />}
+      {uploadVideo && <UploadVideo />}
       <Navbar />
       <div className="flex bg-neutral-950 text-white h-full gap-3 m-0">
         {!singleVideoPage && (showBigBar ? <BigSideBar /> : <SideBar />)}

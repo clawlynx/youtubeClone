@@ -8,7 +8,7 @@ const channelSchema = new Schema(
     subscribers: { type: Number, default: 0 },
     subscriberList: [String],
     totalLikes: { type: Number, default: 0 },
-    videoList: [String],
+
     owner: { type: mongoose.Types.ObjectId, ref: "User" },
   },
   {

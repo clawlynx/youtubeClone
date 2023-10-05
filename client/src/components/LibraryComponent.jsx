@@ -11,22 +11,20 @@ export default function LibraryComponent({ vidarray }) {
         <>
           <div className={`flex ${singleVideoPage ? "gap-20" : "gap-5"} `}>
             {vidarray.slice(0, 4).map((video) => (
-              <>
-                <div key={video._id} className=" w-96">
-                  <Link to={`/videopage/${video._id}`}>
-                    <SmallVideo vid={video.video_src} />
-                  </Link>
+              <div key={video._id} className=" w-96">
+                <Link to={`/videopage/${video._id}`}>
+                  <SmallVideo vid={video.video_src} />
+                </Link>
 
-                  <Link to={`/videopage/${video._id}`} className="p-2 text-xl">
-                    {video.title}
-                  </Link>
-                  <div className="flex gap-2 px-2 py-4 text-sm text-gray-400">
-                    <p>{video.Chanel}</p>
-                    <p>.</p>
-                    <p>10k views</p>
-                  </div>
+                <Link to={`/videopage/${video._id}`} className="p-2 text-xl">
+                  {video.title}
+                </Link>
+                <div className="flex gap-2 px-2 py-4 text-sm text-gray-400">
+                  <p>{video.Chanel}</p>
+                  <p>.</p>
+                  <p>10k views</p>
                 </div>
-              </>
+              </div>
             ))}
           </div>
         </>

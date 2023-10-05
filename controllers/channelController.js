@@ -14,7 +14,7 @@ export const createChannel = async (req, res) => {
           owner: userId,
         });
         await newChannel.save();
-        res.status(201).json({ newChannel });
+        res.status(201).json(newChannel);
       } catch (error) {
         throw new Error(error);
       }
@@ -56,7 +56,8 @@ export const editChannel = async (req, res) => {
       try {
         const currentChannel = await Channel.findOneAndUpdate(
           { owner: userId },
-          { channelName, channelDescription }
+          { channelName, channelDescription },
+          { new: true }
         );
         if (currentChannel) {
           res.status(200).json(currentChannel);

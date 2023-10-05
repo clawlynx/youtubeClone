@@ -43,6 +43,7 @@ const initialState = {
       description: "description of  video 4",
     },
   ],
+  uploadVideo: false,
 };
 
 const yourVideosSlice = createSlice({
@@ -54,8 +55,11 @@ const yourVideosSlice = createSlice({
         (item) => item._id !== payload
       );
     },
+    toggleUploadVideo: (state, { payload }) => {
+      state.uploadVideo = !state.uploadVideo;
+    },
   },
 });
 
-export const { deleteVideo } = yourVideosSlice.actions;
+export const { deleteVideo, toggleUploadVideo } = yourVideosSlice.actions;
 export default yourVideosSlice.reducer;
