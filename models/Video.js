@@ -5,6 +5,8 @@ const videoSchema = new Schema({
   videoName: { type: String, required: true },
   videoDescription: { type: String, required: true },
   videoLikes: { type: Number, default: 0 },
+  views: { type: Number, default: 0 },
+  created: { type: Date, default: Date.now() },
 
   uploader: { type: mongoose.Types.ObjectId, ref: "Channel" },
   accountHolder: { type: mongoose.Types.ObjectId, ref: "User" },

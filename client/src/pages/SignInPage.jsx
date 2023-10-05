@@ -4,11 +4,30 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import GoogleSignIn from "../components/GoogleSignIn";
+import { useDispatch } from "react-redux";
+import {
+  channelok,
+  setChannelDetails,
+  sethasChannelFalse,
+} from "../features/channel/channelSlice";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  async function fetchChannel() {
+    const { data } = await axios.get("api/channel/data");
+    if (data) {
+      dispatch(channelok());
+      dispatch(setChannelDetails(data));
+    } else {
+      console.log("no data");
+      dispatch(setChannelDetails(null));
+      dispatch(sethasChannelFalse());
+    }
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -20,6 +39,7 @@ export default function SignInPage() {
     if (data) {
       console.log("login successful");
       navigate("/");
+      fetchChannel();
     } else {
       console.log("something wrong");
     }

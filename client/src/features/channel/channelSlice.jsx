@@ -18,6 +18,9 @@ const channelSlice = createSlice({
     toggleHasChannel: (state) => {
       state.hasChannel = !state.hasChannel;
     },
+    sethasChannelFalse: (state) => {
+      state.hasChannel = false;
+    },
     channelok: (state) => {
       state.hasChannel = true;
     },
@@ -30,6 +33,11 @@ const channelSlice = createSlice({
     setChannelVideos: (state, { payload }) => {
       state.channelVideos = payload;
     },
+    deleteVideo: (state, { payload }) => {
+      state.channelVideos = state.channelVideos.filter(
+        (item) => item._id !== payload
+      );
+    },
   },
 });
 
@@ -40,6 +48,8 @@ export const {
   setChannelDetails,
   toggleEditChannel,
   setChannelVideos,
+  deleteVideo,
+  sethasChannelFalse,
 } = channelSlice.actions;
 
 export default channelSlice.reducer;

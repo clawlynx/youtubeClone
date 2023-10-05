@@ -3,9 +3,29 @@ import React from "react";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  channelok,
+  setChannelDetails,
+  sethasChannelFalse,
+} from "../features/channel/channelSlice";
 
 export default function GoogleSignIn() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  async function fetchChannel() {
+    const { data } = await axios.get("api/channel/data");
+    if (data) {
+      dispatch(channelok());
+      dispatch(setChannelDetails(data));
+    } else {
+      console.log("no data");
+      dispatch(setChannelDetails(null));
+      dispatch(sethasChannelFalse());
+    }
+  }
+
   async function onSuccess(response) {
     var decoded = jwt_decode(response.credential);
     const userData = {
@@ -17,6 +37,7 @@ export default function GoogleSignIn() {
     if (data) {
       console.log("login successful");
       navigate("/");
+      fetchChannel();
     } else {
       console.log("something wrong");
     }

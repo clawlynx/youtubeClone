@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "react-router-dom";
 import { toggleUploadVideo } from "../features/yourVideo/yourVideoSlice";
 import axios from "axios";
-import { setChannelVideos } from "../features/channel/channelSlice";
+import {
+  setChannelDetails,
+  setChannelVideos,
+} from "../features/channel/channelSlice";
 
 export default function UploadVideo() {
   const navigate = useNavigation();
@@ -25,6 +28,19 @@ export default function UploadVideo() {
     }
   }
 
+  async function updateChannel() {
+    const { data } = await axios.patch(
+      "/api/channel/updatetotalvideos",
+      channelDetails
+    );
+    if (data) {
+      dispatch(setChannelDetails(data));
+      console.log(data);
+    } else {
+      console.log("error");
+    }
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -39,6 +55,7 @@ export default function UploadVideo() {
         console.log(data);
         dispatch(toggleUploadVideo());
         fetchChannelVideos();
+        updateChannel();
       } else {
         console.log("error");
       }

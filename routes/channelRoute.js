@@ -3,6 +3,8 @@ import {
   createChannel,
   editChannel,
   getChannel,
+  reduceTotalVideos,
+  updateTotalVideos,
 } from "../controllers/channelController.js";
 
 const router = Router();
@@ -10,5 +12,7 @@ const router = Router();
 router.post("/create", createChannel);
 router.get("/data", getChannel);
 router.patch("/edit", editChannel);
+router.patch("/updatetotalvideos", updateTotalVideos);
+router.patch("/reducetotalvideos", reduceTotalVideos);
 
 export default router;

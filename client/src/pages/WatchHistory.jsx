@@ -13,7 +13,7 @@ export default function WatchHistory() {
   const dispatch = useDispatch();
 
   return (
-    <div className="p-2 history">
+    <div className="p-2 history min-h-screen">
       <h1 className=" font-bold text-4xl p-2 pb-4 border-b border-neutral-900">
         Your Watch History shown here
       </h1>

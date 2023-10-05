@@ -31,7 +31,7 @@ export default function Channel() {
   console.log(channelVideos);
 
   return (
-    <div className="p-3 h-screen">
+    <div className="p-3 min-h-screen">
       <div className="flex gap-5 justify-around  border-b border-neutral-900 py-5 mb-3 channelpage">
         <div className="flex flex-col items-center gap-3">
           <p className=" text-7xl text-center bg-green-900 px-4 py-2 rounded-full">
@@ -67,7 +67,7 @@ export default function Channel() {
           <GoVideo size={"1.5rem"} />
           Channel Videos
         </p>
-        {!(channelVideos.length > 0) && (
+        {!(channelVideos?.length > 0) && (
           <p className="text-center py-4">No videos to show</p>
         )}
         {channelVideos &&
@@ -78,7 +78,7 @@ export default function Channel() {
                 key={video._id}
                 className=" w-96 flex justify-start channelpage py-2 border-b border-neutral-900 mb-3"
               >
-                <div className="w-1/3">
+                <div className="max-w-sm overflow-hidden">
                   <div className="">
                     <SmallVideo
                       vid={`http://localhost:3000/uploads/${video.fileName}`}
@@ -91,7 +91,7 @@ export default function Channel() {
                   </div>
                   <p className=" text-md">{video.videoDescription}</p>
                   <div className="flex gap-2  py-4 text-sm text-gray-400">
-                    <p>10k views</p>
+                    <p>{video.views} views</p>
                   </div>
                 </div>
               </Link>

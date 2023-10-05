@@ -43,7 +43,7 @@ export default function Home() {
       {editChannel && <EditChannel />}
       {uploadVideo && <UploadVideo />}
       <Navbar />
-      <div className="flex bg-neutral-950 text-white h-full gap-3 m-0">
+      <div className="flex bg-neutral-950 text-white min-h-screen gap-3 m-0">
         {!singleVideoPage && (showBigBar ? <BigSideBar /> : <SideBar />)}
 
         <div className="relative">

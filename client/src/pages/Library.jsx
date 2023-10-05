@@ -12,7 +12,7 @@ export default function Library() {
   const { wlvideos } = useSelector((state) => state.watchLater);
   const { lvideos } = useSelector((state) => state.likedVideos);
   return (
-    <>
+    <div className=" min-h-screen">
       <div className=" p-3 border-b border-neutral-800">
         <div className="flex gap-2 justify-between pb-2 grow border-b border-neutral-800">
           <div className="flex gap-2">
@@ -61,6 +61,6 @@ export default function Library() {
         </div>
         <LibraryComponent vidarray={lvideos} />
       </div>
-    </>
+    </div>
   );
 }

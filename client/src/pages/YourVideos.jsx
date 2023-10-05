@@ -1,17 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SmallVideo from "../components/smallVideo";
 import { useDispatch, useSelector } from "react-redux";
 import { MdDelete } from "react-icons/md";
-import { deleteVideo } from "../features/yourVideo/yourVideoSlice";
+
+import axios from "axios";
+import {
+  setChannelDetails,
+  setChannelVideos,
+} from "../features/channel/channelSlice";
+import timeElapsed from "../../utilities/datefunction";
 
 export default function YourVideos() {
-  const { yourVideos } = useSelector((state) => state.yourVideos);
+  const { channelVideos, channelDetails } = useSelector(
+    (state) => state.channel
+  );
   const dispatch = useDispatch();
+
+  async function fetchChannelVideos() {
+    const { data } = await axios.get("/api/video/find");
+    if (data) {
+      dispatch(setChannelVideos(data));
+      console.log(data);
+    } else {
+      console.log("no videos");
+    }
+  }
+  useEffect(() => {
+    fetchChannelVideos();
+  }, []);
+
+  async function updateChannel() {
+    const { data } = await axios.patch(
+      "/api/channel/reducetotalvideos",
+      channelDetails
+    );
+    if (data) {
+      dispatch(setChannelDetails(data));
+      console.log(data);
+    } else {
+      console.log("error");
+    }
+  }
+
+  async function handleDelete(id) {
+    const { data } = await axios.delete(`/api/video/delete/${id}`);
+    if (data) {
+      console.log(data);
+      updateChannel();
+      fetchChannelVideos();
+    } else {
+      console.log("unable to delete");
+    }
+  }
 
   return (
     <>
-      <div className="p-2 history">
+      <div className="p-2 history min-h-screen">
         <h1 className=" font-bold text-4xl p-2 pb-4 border-b border-neutral-900">
           Your Videos
         </h1>
@@ -20,29 +65,34 @@ export default function YourVideos() {
             <p className=" text-2xl pb-2 px-3 mb-3 border-b border-neutral-900">
               All Videos
             </p>
-            {yourVideos.length > 0 ? (
-              yourVideos.map((video) => (
+            {channelVideos?.length > 0 ? (
+              channelVideos.map((video) => (
                 <div
                   key={video._id}
-                  className="mb-2  flex justify-between gap-0 border-b border-neutral-900"
+                  className="mb-2  flex justify-between gap-0 pb-3 border-b border-neutral-900"
                 >
                   <div className="flex gap-4">
-                    <Link to={`/videopage/${video._id}`} className=" w-96 h-60">
-                      <SmallVideo vid={video.video_src} />
-                    </Link>
+                    <div className=" max-w-sm">
+                      <Link to={`/videopage/${video._id}`} className="">
+                        <SmallVideo
+                          vid={`http://localhost:3000/uploads/${video.fileName}`}
+                        />
+                      </Link>
+                    </div>
+
                     <div>
                       <Link
                         to={`/videopage/${video._id}`}
                         className=" text-xl pb-2"
                       >
-                        {video.title}
+                        {video.videoName}
                       </Link>
                       <div className="flex gap-2 pb-4 text-sm text-gray-400">
-                        <p>{video.Chanel}</p>
+                        <p>{timeElapsed(video.created)} ago</p>
                         <p>.</p>
-                        <p>10k views</p>
+                        <p>{video.views} views</p>
                       </div>
-                      <p>{video.description}</p>
+                      <p>{video.videoDescription}</p>
                     </div>
                   </div>
 
@@ -50,7 +100,7 @@ export default function YourVideos() {
                     <MdDelete className=" cursor-pointer" />
                     <p
                       className=" cursor-pointer"
-                      onClick={() => dispatch(deleteVideo(video._id))}
+                      onClick={() => handleDelete(video._id)}
                     >
                       Delete
                     </p>

@@ -6,7 +6,7 @@ import SmallVideo from "../components/smallVideo";
 export default function LikedVideos() {
   const { lvideos } = useSelector((state) => state.likedVideos);
   return (
-    <div className="p-2 history">
+    <div className="p-2 history min-h-screen">
       <h1 className=" font-bold text-4xl p-2 pb-4 border-b border-neutral-900">
         Your Liked videos shown here
       </h1>

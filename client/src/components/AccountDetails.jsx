@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { assignUser } from "../features/auth/authSlice";
 import axios from "axios";
-import { toggleCreateChannel } from "../features/channel/channelSlice";
-import { Link } from "react-router-dom";
+import {
+  setChannelVideos,
+  toggleCreateChannel,
+} from "../features/channel/channelSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function AccountDetails({ drop }) {
   const { user } = useSelector((state) => state.auth);
   const { hasChannel, channelDetails } = useSelector((state) => state.channel);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -16,7 +20,9 @@ export default function AccountDetails({ drop }) {
     const { data } = await axios.get("/api/auth/signout");
     if (data) {
       dispatch(assignUser(null));
+      dispatch(setChannelVideos(null));
       drop(false);
+      navigate("/");
     } else {
       console.log("something went wrong");
     }
