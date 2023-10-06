@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SmallVideo from "../components/smallVideo";
 import { useDispatch, useSelector } from "react-redux";
 import { MdDelete } from "react-icons/md";
@@ -10,12 +10,14 @@ import {
   setChannelVideos,
 } from "../features/channel/channelSlice";
 import timeElapsed from "../../utilities/datefunction";
+import { toast } from "react-toastify";
 
 export default function YourVideos() {
   const { channelVideos, channelDetails } = useSelector(
     (state) => state.channel
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   async function fetchChannelVideos() {
     const { data } = await axios.get("/api/video/find");
@@ -49,6 +51,8 @@ export default function YourVideos() {
       console.log(data);
       updateChannel();
       fetchChannelVideos();
+      toast.success("video deleted");
+      navigate("/");
     } else {
       console.log("unable to delete");
     }

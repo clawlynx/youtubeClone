@@ -9,6 +9,7 @@ import {
   setChannelDetails,
   sethasChannelFalse,
 } from "../features/channel/channelSlice";
+import { toast } from "react-toastify";
 
 export default function GoogleSignIn() {
   const navigate = useNavigate();
@@ -38,6 +39,7 @@ export default function GoogleSignIn() {
       console.log("login successful");
       navigate("/");
       fetchChannel();
+      toast.success("successfully logged in");
     } else {
       console.log("something wrong");
     }

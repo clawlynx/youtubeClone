@@ -27,3 +27,9 @@
 .channelpage {
   width: 85vw;
 }
+.more-video-container {
+  min-width: 30rem;
+}
+.channelvideo {
+  min-width: 24rem;
+}

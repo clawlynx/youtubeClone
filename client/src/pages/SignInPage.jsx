@@ -10,6 +10,7 @@ import {
   setChannelDetails,
   sethasChannelFalse,
 } from "../features/channel/channelSlice";
+import { toast } from "react-toastify";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
@@ -40,6 +41,7 @@ export default function SignInPage() {
       console.log("login successful");
       navigate("/");
       fetchChannel();
+      toast.success("login successful");
     } else {
       console.log("something wrong");
     }

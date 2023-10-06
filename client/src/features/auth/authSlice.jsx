@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: null,
+  likedVideos: [],
 };
 
 const authSlice = createSlice({
@@ -10,6 +11,7 @@ const authSlice = createSlice({
   reducers: {
     assignUser: (state, { payload }) => {
       state.user = payload;
+      state.likedVideos = payload.likedVideos;
     },
   },
 });

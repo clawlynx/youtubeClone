@@ -12,6 +12,7 @@ export const createVideo = async (req, res) => {
         videoDescription: req.body.videoDescription,
         uploader: req.body.uploader,
         accountHolder: userId,
+        created: new Date(Date.now()).toISOString(),
       });
       await newVideo.save();
       res.status(200).json(newVideo);

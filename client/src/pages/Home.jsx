@@ -6,7 +6,7 @@ import BigSideBar from "../components/BigSideBar";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { assignUser } from "../features/auth/authSlice";
-import { channelok, setChannelDetails } from "../features/channel/channelSlice";
+
 import EditChannel from "../components/EditChannel";
 import UploadVideo from "../components/UploadVideo";
 
@@ -24,20 +24,10 @@ export default function Home() {
     dispatch(assignUser(data));
   }
 
-  async function fetchChannel() {
-    const { data } = await axios.get("api/channel/data");
-    if (data) {
-      dispatch(channelok());
-      dispatch(setChannelDetails(data));
-    } else {
-      console.log("no data");
-    }
-  }
-
   useEffect(() => {
     fetchUser();
-    fetchChannel();
   }, []);
+
   return (
     <>
       {editChannel && <EditChannel />}

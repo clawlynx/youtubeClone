@@ -6,7 +6,7 @@ const initialState = {
   isLiked: false,
   isDisliked: false,
   isSaved: false,
-  likenos: 2,
+
   commentList: [
     {
       id: 1,
@@ -32,14 +32,15 @@ const videoRenderSlice = createSlice({
   reducers: {
     markLiked: (state) => {
       state.isLiked = true;
-      state.likenos = state.likenos + 1;
     },
     unmarkLiked: (state) => {
       state.isLiked = false;
-      state.likenos = state.likenos - 1;
     },
-    toogleDisliked: (state) => {
-      state.isDisliked = !state.isDisliked;
+    markDisliked: (state) => {
+      state.isDisliked = true;
+    },
+    unmarkDisliked: (state) => {
+      state.isDisliked = false;
     },
     toogleSaved: (state) => {
       state.isSaved = !state.isSaved;
@@ -70,7 +71,8 @@ const videoRenderSlice = createSlice({
 export const {
   markLiked,
   unmarkLiked,
-  toogleDisliked,
+  markDisliked,
+  unmarkDisliked,
   toogleSaved,
   addComment,
   deleteComment,

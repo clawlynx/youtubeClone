@@ -7,6 +7,7 @@ import {
   toggleHasChannel,
 } from "../features/channel/channelSlice";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function CreateChannel() {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ export default function CreateChannel() {
       dispatch(setChannelDetails(data));
       dispatch(toggleCreateChannel());
       dispatch(toggleHasChannel());
+      toast.success("channel created");
     } else {
       console.log("something Wrong");
     }

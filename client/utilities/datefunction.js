@@ -3,7 +3,7 @@ export default function timeElapsed(incomingdate) {
   const current = new Date();
   const ddiff = current - created;
   const differinSec = ddiff / 1000;
-  const one = 1;
+  const one = "1 minute";
   const minutesDifference = `${Math.floor(differinSec / 60)} minutes`;
   const hourDifference = `${Math.floor(differinSec / (60 * 60))} hours`;
   const dayDifference = `${Math.floor(differinSec / (60 * 60 * 24))} days`;

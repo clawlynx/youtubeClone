@@ -11,8 +11,12 @@ const yourVideosSlice = createSlice({
     toggleUploadVideo: (state, { payload }) => {
       state.uploadVideo = !state.uploadVideo;
     },
+    setYourVideos: (state, { payload }) => {
+      state.yourVideos = payload;
+    },
   },
 });
 
-export const { toggleUploadVideo } = yourVideosSlice.actions;
+export const { deleteVideo, toggleUploadVideo, setYourVideos } =
+  yourVideosSlice.actions;
 export default yourVideosSlice.reducer;

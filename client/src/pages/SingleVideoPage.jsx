@@ -11,8 +11,10 @@ import timeElapsed from "../../utilities/datefunction";
 export default function SingleVideoPage() {
   const dispatch = useDispatch();
   const { singleVideo } = useSelector((state) => state.videoRender);
+
   const { id } = useParams();
 
+  //function for getting the singlevideo details
   async function getSingleVideo() {
     const { data } = await axios.get(`/api/video/find/${id}`);
     if (data) {
@@ -23,6 +25,7 @@ export default function SingleVideoPage() {
     }
   }
 
+  //function for updating the views
   async function updateViews() {
     const { data } = await axios.patch(`/api/video/updateviews/${id}`);
     if (data) {
@@ -60,7 +63,7 @@ export default function SingleVideoPage() {
                 {timeElapsed(singleVideo?.created)} ago
               </p>
             </div>
-            <VideoPageButtons />
+            <VideoPageButtons videoId={id} />
           </div>
 
           <div className="flex py-2 items-center gap-4 border-b border-neutral-800">
@@ -82,7 +85,7 @@ export default function SingleVideoPage() {
           <Comments />
         </div>
       </div>
-      <div>
+      <div className="more-video-container">
         <h2>More videos</h2>
       </div>
     </div>

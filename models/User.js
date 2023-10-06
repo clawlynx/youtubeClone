@@ -7,6 +7,14 @@ const userSchema = new Schema(
     password: { type: String },
     image: String,
     joinedOn: { type: Date, default: Date.now() },
+    likedVideos: { type: [mongoose.Types.ObjectId], ref: "Video", default: [] },
+    dislikedVideos: {
+      type: [mongoose.Types.ObjectId],
+      ref: "Video",
+      default: [],
+    },
+    watchLater: { type: [mongoose.Types.ObjectId], ref: "Video", default: [] },
+    history: { type: [mongoose.Types.ObjectId], ref: "Video", default: [] },
   },
   {
     timestamps: true,

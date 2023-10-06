@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { assignUser } from "../features/auth/authSlice";
+import { channelok, setChannelDetails } from "../features/channel/channelSlice";
 import axios from "axios";
 import {
   setChannelVideos,
   toggleCreateChannel,
 } from "../features/channel/channelSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function AccountDetails({ drop }) {
   const { user } = useSelector((state) => state.auth);
@@ -14,6 +16,16 @@ export default function AccountDetails({ drop }) {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
+  async function fetchChannel() {
+    const { data } = await axios.get("/api/channel/data");
+    if (data) {
+      dispatch(channelok());
+      dispatch(setChannelDetails(data));
+    } else {
+      console.log("no data");
+    }
+  }
 
   async function handleSignOut(e) {
     e.stopPropagation();
@@ -23,23 +35,24 @@ export default function AccountDetails({ drop }) {
       dispatch(setChannelVideos(null));
       drop(false);
       navigate("/");
+      toast.success("logged out successfully");
     } else {
       console.log("something went wrong");
     }
   }
+
+  useEffect(() => {
+    fetchChannel();
+  }, []);
+
   return (
     <div className="z-50">
       <div className="absolute right-5 top-20 bg-neutral-800 p-2 w-80 rounded-sm border border-neutral-900 h-fit">
         <div className="text-center flex flex-col items-center text-white gap-3 border-b border-neutral-700 pb-2">
-          {user.image ? (
-            <div className=" rounded-full overflow-hidden w-20">
-              <img src={user.image} alt="img"></img>
-            </div>
-          ) : (
-            <h3 className="text-black font-bold text-5xl rounded-full  bg-green-900 px-4 py-1 ">
-              {user.email.charAt(0).toUpperCase()}
-            </h3>
-          )}
+          <h3 className="text-black font-bold text-5xl rounded-full  bg-green-900 px-4 py-1 ">
+            {user.email.charAt(0).toUpperCase()}
+          </h3>
+
           <p className="text-2xl">Helloo {user.username}</p>
         </div>
         {hasChannel ? (

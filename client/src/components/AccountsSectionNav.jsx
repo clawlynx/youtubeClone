@@ -37,15 +37,9 @@ export default function AccountsSectionNav() {
             className=" cursor-pointer w-fit"
             onClick={() => setShowDropdown(!showDropdown)}
           >
-            {user.image ? (
-              <div className=" rounded-full overflow-hidden w-10">
-                <img src={user.image} alt="img"></img>
-              </div>
-            ) : (
-              <h3 className="text-black font-bold px-4 text-xl bg-green-900 py-2 rounded-full hover:bg-green-700">
-                {user.email.charAt(0).toUpperCase()}
-              </h3>
-            )}
+            <h3 className="text-black font-bold px-4 text-xl bg-green-900 py-2 rounded-full hover:bg-green-700">
+              {user.email.charAt(0).toUpperCase()}
+            </h3>
           </div>
           {showDropdown && <AccountDetails drop={setShowDropdown} />}
         </div>

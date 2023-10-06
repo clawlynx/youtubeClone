@@ -8,11 +8,12 @@ import {
   setChannelDetails,
   setChannelVideos,
 } from "../features/channel/channelSlice";
+import { toast } from "react-toastify";
 
 export default function UploadVideo() {
-  const navigate = useNavigation();
+  const navigation = useNavigation();
   const dispatch = useDispatch();
-  const isUploading = navigate.state === "submitting";
+  const isUploading = navigation.state === "submitting";
   const { channelDetails } = useSelector((state) => state.channel);
   const [videoFile, setVideoFile] = useState("");
   const [videoName, setVideoName] = useState("");
@@ -56,6 +57,7 @@ export default function UploadVideo() {
         dispatch(toggleUploadVideo());
         fetchChannelVideos();
         updateChannel();
+        toast.success("successfully uploaded. please wait for sometime");
       } else {
         console.log("error");
       }
