@@ -14,8 +14,9 @@ import {
   markLiked,
   markDisliked,
   unmarkDisliked,
-  toogleSaved,
   unmarkLiked,
+  markSaved,
+  unmarkSaved,
 } from "../features/videorender/videoRenderSlice";
 import axios from "axios";
 import { assignUser } from "../features/auth/authSlice";
@@ -121,6 +122,49 @@ export default function VideoPageButtons({ videoId }) {
     }
   }
 
+  //function to add to watch later
+  async function addSaved() {
+    dispatch(markSaved());
+    if (user?._id) {
+      const updata = {
+        videoId,
+        isAdd: "add",
+        userId: user._id,
+      };
+      const { data } = await axios.patch(
+        "/api/buttonactions/updateWatchLater",
+        updata
+      );
+      if (data) {
+        dispatch(assignUser(data));
+      } else {
+        console.log("failed to update");
+      }
+    }
+  }
+
+  //function for removing from watch later
+
+  async function removeSaved() {
+    dispatch(unmarkSaved());
+    if (user?._id) {
+      const updata = {
+        videoId,
+        isAdd: "remove",
+        userId: user._id,
+      };
+      const { data } = await axios.patch(
+        "/api/buttonactions/updateWatchLater",
+        updata
+      );
+      if (data) {
+        dispatch(assignUser(data));
+      } else {
+        console.log("failed to update");
+      }
+    }
+  }
+
   // function for initial render
   function initialrender() {
     if (user?._id) {
@@ -134,7 +178,12 @@ export default function VideoPageButtons({ videoId }) {
       } else {
         dispatch(unmarkDisliked());
       }
-      console.log("success");
+      if (user?.watchLater.includes(videoId)) {
+        dispatch(markSaved());
+      } else {
+        dispatch(unmarkSaved());
+      }
+      //console.log("success");
     }
   }
   useEffect(() => {
@@ -181,7 +230,7 @@ export default function VideoPageButtons({ videoId }) {
       {isSaved ? (
         <div
           className=" flex gap-2 items-center bg-neutral-700 hover:bg-neutral-800 py-1 px-2 rounded-lg cursor-pointer"
-          onClick={() => dispatch(toogleSaved())}
+          onClick={removeSaved}
         >
           <MdPlaylistAddCheck className=" text-blue-500" size={"1.75rem"} />
           <p>Saved</p>
@@ -189,7 +238,7 @@ export default function VideoPageButtons({ videoId }) {
       ) : (
         <div
           className=" flex gap-2 items-center bg-neutral-700 hover:bg-neutral-800 py-1 px-2 rounded-lg cursor-pointer"
-          onClick={() => dispatch(toogleSaved())}
+          onClick={addSaved}
         >
           <MdPlaylistAdd size={"1.75rem"} />
           <p>Save</p>

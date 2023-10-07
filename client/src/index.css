@@ -29,7 +29,18 @@
 }
 .more-video-container {
   min-width: 30rem;
+  max-width: 30rem;
 }
 .channelvideo {
+  min-width: 24rem;
+}
+.clearall {
+  min-width: 7rem;
+}
+.more-videos {
+  max-width: 15rem;
+  min-width: 15rem;
+}
+.homevideo {
   min-width: 24rem;
 }

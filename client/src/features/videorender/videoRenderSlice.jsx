@@ -42,8 +42,11 @@ const videoRenderSlice = createSlice({
     unmarkDisliked: (state) => {
       state.isDisliked = false;
     },
-    toogleSaved: (state) => {
-      state.isSaved = !state.isSaved;
+    markSaved: (state) => {
+      state.isSaved = true;
+    },
+    unmarkSaved: (state) => {
+      state.isSaved = false;
     },
     addComment: (state, { payload }) => {
       state.commentList.push(payload);
@@ -73,7 +76,8 @@ export const {
   unmarkLiked,
   markDisliked,
   unmarkDisliked,
-  toogleSaved,
+  markSaved,
+  unmarkSaved,
   addComment,
   deleteComment,
   editComment,

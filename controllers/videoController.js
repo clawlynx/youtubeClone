@@ -32,6 +32,7 @@ export const getChannelVideo = async (req, res) => {
       const videos = await Video.find({ accountHolder: userId }).populate(
         "uploader"
       );
+      videos.reverse();
       if (videos.length > 0) {
         res.status(200).json(videos);
       } else {
@@ -48,8 +49,9 @@ export const getChannelVideo = async (req, res) => {
 export const getAllVideos = async (req, res) => {
   try {
     const allvideos = await Video.find().populate("uploader");
+    const allvideos2 = allvideos.reverse();
     if (allvideos) {
-      res.status(200).json(allvideos);
+      res.status(200).json(allvideos2);
     } else {
       console.log("no videos found");
     }

@@ -112,7 +112,7 @@ export default function YourVideos() {
                 </div>
               ))
             ) : (
-              <div>No videos to show</div>
+              <div>{`No videos to show (please make sure you are logged in)`}</div>
             )}
           </div>
         </div>

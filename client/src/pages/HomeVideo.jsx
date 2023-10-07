@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { assignAllVideos } from "../features/videorender/videoRenderSlice";
 import axios from "axios";
 import timeElapsed from "../../utilities/datefunction";
+import { singlevideoPageOff } from "../features/togglesidebar/togglesidebarSlice";
 
 const categories = [
   "All",
@@ -38,6 +39,7 @@ export default function HomeVideo() {
 
   useEffect(() => {
     fetchAllVideos();
+    dispatch(singlevideoPageOff());
   }, []);
 
   return (
@@ -57,13 +59,17 @@ export default function HomeVideo() {
       >
         {videos?.map((video) => {
           return (
-            <div key={video._id} className=" w-96">
-              <Link to={`/videopage/${video._id}`} className=" cursor-pointer">
-                <SmallVideo
-                  vid={`http://localhost:3000/uploads/${video.fileName}`}
-                />
-              </Link>
-
+            <div key={video._id} className="w-96">
+              <div className="max-w-sm homevideo">
+                <Link
+                  to={`/videopage/${video._id}`}
+                  className=" cursor-pointer"
+                >
+                  <SmallVideo
+                    vid={`http://localhost:3000/uploads/${video.fileName}`}
+                  />
+                </Link>
+              </div>
               <div className=" py-3 px-2 ">
                 <div className="flex justify-start gap-3 items-center">
                   <p className=" p-4 py-2 text-lg bg-green-900 rounded-full">

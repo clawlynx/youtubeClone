@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import { User } from "../models/User.js";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 export const createUser = async (req, res) => {
   const { username, email, password } = req.body;
@@ -131,5 +132,119 @@ export const googleSignIn = async (req, res) => {
     }
   } catch (error) {
     throw new Error(error);
+  }
+};
+
+export const getlwlwhVideos = async (req, res) => {
+  const { token } = req.cookies;
+
+  if (token) {
+    const { userId } = jwt.verify(token, process.env.JWT_SECRET);
+
+    try {
+      const currentUser = await User.findById(userId).populate([
+        "likedVideos",
+        "watchLater",
+        "history",
+      ]);
+      res.json(currentUser);
+    } catch (error) {
+      throw new Error(error);
+    }
+  } else {
+    res.json(null);
+  }
+};
+
+export const removeWatchLater = async (req, res) => {
+  const { userId } = req.body;
+  if (userId) {
+    try {
+      const newwatch = [];
+      const newUser = await User.findByIdAndUpdate(
+        userId,
+        { watchLater: newwatch },
+        { new: true }
+      );
+      if (newUser) {
+        res.status(200).json(newUser);
+      } else {
+        console.log("failed to delete all");
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+};
+
+export const updateHistory = async (req, res) => {
+  const { userId, videoId, isAdd } = req.body;
+  if (userId) {
+    if (isAdd === "add") {
+      try {
+        const currentUser = await User.findById(userId);
+        if (currentUser) {
+          let currentHistory = currentUser.history.map((id) => id.toString());
+          currentHistory.push(videoId.toString());
+          let currentHistoryrev = currentHistory.reverse();
+          let currentHistory2 = new Set(currentHistoryrev);
+          let currentHistory3 = Array.from(currentHistory2).map(
+            (id) => new mongoose.Types.ObjectId(id)
+          );
+          let currentHistory3rev = currentHistory3.reverse();
+          const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { history: currentHistory3rev },
+            { new: true }
+          ).populate("history");
+          if (updatedUser) {
+            res.status(200).json(updatedUser);
+          } else {
+            console.log("not updated");
+          }
+        } else {
+          console.log("no user found");
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    } else if (isAdd === "remove") {
+      try {
+        const currentUser = await User.findById(userId);
+        const newhistoryArr = currentUser.history;
+        const newHistory = newhistoryArr.filter(
+          (item) => item.toString() !== videoId
+        );
+        const updatedUser = await User.findByIdAndUpdate(
+          userId,
+          { history: newHistory },
+          { new: true }
+        ).populate("history");
+        res.status(200).json(updatedUser);
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
+  }
+};
+
+export const clearHistory = async (req, res) => {
+  const { userId } = req.body;
+  if (userId) {
+    try {
+      const newwatch = [];
+      const newUser = await User.findByIdAndUpdate(
+        userId,
+        { history: newwatch },
+        { new: true }
+      );
+      if (newUser) {
+        res.status(200).json(newUser);
+      } else {
+        console.log("failed to delete all");
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 };

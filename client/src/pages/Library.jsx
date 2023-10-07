@@ -8,9 +8,8 @@ import { MdOutlineWatchLater } from "react-icons/md";
 import { AiOutlineLike } from "react-icons/ai";
 
 export default function Library() {
-  const { whvideos } = useSelector((state) => state.watchHistory);
-  const { wlvideos } = useSelector((state) => state.watchLater);
-  const { lvideos } = useSelector((state) => state.likedVideos);
+  const { whvideos, wlvideos, lvideos } = useSelector((state) => state.auth);
+
   return (
     <div className=" min-h-screen">
       <div className=" p-3 border-b border-neutral-800">

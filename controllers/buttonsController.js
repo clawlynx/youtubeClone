@@ -123,3 +123,41 @@ export const updateDisLikedVideos = async (req, res) => {
     console.log("No user Id");
   }
 };
+
+//function for updating watch later
+export const updateWatchLater = async (req, res) => {
+  const { userId, isAdd, videoId } = req.body;
+  if (userId) {
+    if (isAdd === "add") {
+      try {
+        const currentUser = await User.findById(userId);
+        const newWatchLater = currentUser.watchLater;
+
+        newWatchLater.push(videoId);
+
+        const updatedUser = await User.findByIdAndUpdate(
+          userId,
+          { watchLater: newWatchLater },
+          { new: true }
+        );
+        res.status(200).json(updatedUser);
+      } catch (error) {
+        throw new Error(error);
+      }
+    } else if (isAdd === "remove") {
+      const currentUser = await User.findById(userId);
+      const newwatchArr = currentUser.watchLater;
+      const newWatchLater = newwatchArr.filter(
+        (item) => item.toString() !== videoId
+      );
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { watchLater: newWatchLater },
+        { new: true }
+      );
+      res.status(200).json(updatedUser);
+    }
+  } else {
+    console.log("No user Id");
+  }
+};

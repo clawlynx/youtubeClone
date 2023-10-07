@@ -1,16 +1,67 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  clearPlaylist,
-  removeVideofromthis,
-} from "../features/watchLater/watchLaterSlice";
+
 import SmallVideo from "../components/smallVideo";
+import axios from "axios";
+import { assignUser, assignWlVideos } from "../features/auth/authSlice";
 
 export default function WatchLater() {
-  const { wlvideos } = useSelector((state) => state.watchLater);
+  const { wlvideos, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  //function for removing from watch later
+
+  async function removeSaved(id) {
+    if (user?._id) {
+      const updata = {
+        videoId: id,
+        isAdd: "remove",
+        userId: user._id,
+      };
+      const { data } = await axios.patch(
+        "/api/buttonactions/updateWatchLater",
+        updata
+      );
+      if (data) {
+        dispatch(assignUser(data));
+        fetchsavedvideos();
+      } else {
+        console.log("failed to update");
+      }
+    }
+  }
+
+  //function for removing all videos
+  async function removeAll() {
+    if (user._id) {
+      const updata = {
+        userId: user._id,
+      };
+      const { data } = await axios.patch("/api/auth/removewatchlater", updata);
+      if (data) {
+        dispatch(assignUser(data));
+        fetchsavedvideos();
+      } else {
+        console.log("failed to remove");
+      }
+    }
+  }
+
+  //function for fetching saved videos
+  async function fetchsavedvideos() {
+    const { data } = await axios.get("/api/auth/getlwlwhVideos");
+    if (data) {
+      dispatch(assignWlVideos(data?.watchLater));
+    } else {
+      console.log("no videos");
+    }
+  }
+  useEffect(() => {
+    fetchsavedvideos();
+  }, []);
+
   return (
     <div className="p-2 history min-h-screen">
       <h1 className=" font-bold text-4xl p-2 pb-4 border-b border-neutral-900">
@@ -21,29 +72,34 @@ export default function WatchLater() {
           <p className=" text-2xl pb-2 px-3 mb-3 border-b border-neutral-900">
             Watch later playlist
           </p>
-          {wlvideos.length > 0 ? (
+          {wlvideos?.length > 0 ? (
             wlvideos.map((video) => (
               <div
                 key={video._id}
-                className="mb-2  flex justify-between gap-0 border-b border-neutral-900"
+                className="mb-2  flex justify-between gap-0 border-b pb-3 border-neutral-900"
               >
                 <div className="flex gap-4">
-                  <Link to={`/videopage/${video._id}`} className=" w-96 h-60">
-                    <SmallVideo vid={video.video_src} />
-                  </Link>
+                  <div className=" max-w-sm homevideo">
+                    <Link to={`/videopage/${video._id}`} className=" w-96 h-60">
+                      <SmallVideo
+                        vid={`http://localhost:3000/uploads/${video.fileName}`}
+                      />
+                    </Link>
+                  </div>
+
                   <div>
                     <Link
                       to={`/videopage/${video._id}`}
                       className=" text-xl pb-2"
                     >
-                      {video.title}
+                      {video.videoName}
                     </Link>
                     <div className="flex gap-2 pb-4 text-sm text-gray-400">
-                      <p>{video.Chanel}</p>
+                      <p>{video.videoLikes} likes</p>
                       <p>.</p>
-                      <p>10k views</p>
+                      <p>{video.views} views</p>
                     </div>
-                    <p>{video.description}</p>
+                    <p>{video.videoDescription}</p>
                   </div>
                 </div>
 
@@ -51,7 +107,7 @@ export default function WatchLater() {
                   <RxCross1 className=" cursor-pointer" />
                   <p
                     className=" cursor-pointer"
-                    onClick={() => dispatch(removeVideofromthis(video._id))}
+                    onClick={() => removeSaved(video._id)}
                   >
                     Remove
                   </p>
@@ -59,14 +115,11 @@ export default function WatchLater() {
               </div>
             ))
           ) : (
-            <div>No videos to show</div>
+            <div>{`No videos to show (make sure you are logged in)`}</div>
           )}
         </div>
-        <div className=" cursor-pointer">
-          <p
-            className=" text-blue-500"
-            onClick={() => dispatch(clearPlaylist())}
-          >
+        <div className=" cursor-pointer clearall">
+          <p className=" text-blue-500" onClick={removeAll}>
             Clear All
           </p>
         </div>

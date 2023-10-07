@@ -1,17 +1,60 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SmallVideo from "../components/smallVideo";
 import { RxCross1 } from "react-icons/rx";
-import {
-  clearHistory,
-  removeVideo,
-} from "../features/history/watchHistorySlice";
+
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { assignWhVideos } from "../features/auth/authSlice";
 
 export default function WatchHistory() {
-  const { whvideos } = useSelector((state) => state.watchHistory);
+  const { whvideos, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
+  //function for initialrender
+  async function getHistory() {
+    const { data } = await axios.get("/api/auth/getlwlwhVideos");
+    console.log(data);
+    if (data) {
+      dispatch(assignWhVideos(data.history));
+    } else {
+      console.log("no history");
+      dispatch(assignWhVideos([]));
+    }
+  }
+
+  //function for removing each
+  async function removeHistory(id) {
+    if (user?._id) {
+      const updata = {
+        videoId: id,
+        isAdd: "remove",
+        userId: user._id,
+      };
+      const { data } = await axios.patch("/api/auth/updatehistory", updata);
+      if (data) {
+        dispatch(assignWhVideos(data.history));
+      } else {
+        console.log("failed to update");
+      }
+    }
+  }
+
+  //function to clearhistory
+  async function clearHistory() {
+    const { data } = await axios.patch("/api/auth/clearhistory", {
+      userId: user?._id,
+    });
+    if (data) {
+      dispatch(assignWhVideos(data.history));
+    } else {
+      console.log("failed to clear");
+    }
+  }
+
+  useEffect(() => {
+    getHistory();
+  }, []);
   return (
     <div className="p-2 history min-h-screen">
       <h1 className=" font-bold text-4xl p-2 pb-4 border-b border-neutral-900">
@@ -22,29 +65,33 @@ export default function WatchHistory() {
           <p className=" text-2xl pb-2 px-3 mb-3 border-b border-neutral-900">
             History
           </p>
-          {whvideos.length > 0 ? (
+          {whvideos?.length > 0 ? (
             whvideos.map((video) => (
               <div
                 key={video._id}
-                className="mb-2  flex justify-between gap-0 border-b border-neutral-900"
+                className="mb-2  flex justify-between gap-0 py-3 border-b border-neutral-900"
               >
                 <div className="flex gap-4">
-                  <Link to={`/videopage/${video._id}`} className=" w-96 h-60">
-                    <SmallVideo vid={video.video_src} />
-                  </Link>
+                  <div className=" max-w-sm homevideo">
+                    <Link to={`/videopage/${video._id}`} className=" w-96 h-60">
+                      <SmallVideo
+                        vid={`http://localhost:3000/uploads/${video.fileName}`}
+                      />
+                    </Link>
+                  </div>
                   <div>
                     <Link
                       to={`/videopage/${video._id}`}
-                      className=" text-xl pb-2"
+                      className=" text-xl pb-2 mb-2"
                     >
-                      {video.title}
+                      {video.videoName}
                     </Link>
-                    <div className="flex gap-2 pb-4 text-sm text-gray-400">
-                      <p>{video.Chanel}</p>
+                    <div className="flex gap-2 pb-4 mt-2 text-sm text-gray-400">
+                      <p>{video.videoLikes} likes</p>
                       <p>.</p>
-                      <p>10k views</p>
+                      <p>{video.views} views</p>
                     </div>
-                    <p>{video.description}</p>
+                    <p>{video.videoDescription}</p>
                   </div>
                 </div>
 
@@ -52,7 +99,7 @@ export default function WatchHistory() {
                   <RxCross1 className=" cursor-pointer" />
                   <p
                     className=" cursor-pointer"
-                    onClick={() => dispatch(removeVideo(video._id))}
+                    onClick={() => removeHistory(video._id)}
                   >
                     Remove
                   </p>
@@ -60,14 +107,11 @@ export default function WatchHistory() {
               </div>
             ))
           ) : (
-            <div>No History to show</div>
+            <div>{`No History to show (make sure you are logged in)`}</div>
           )}
         </div>
-        <div className=" cursor-pointer">
-          <p
-            className=" text-blue-500"
-            onClick={() => dispatch(clearHistory())}
-          >
+        <div className=" cursor-pointer clearall">
+          <p className=" text-blue-500" onClick={clearHistory}>
             Clear History
           </p>
         </div>

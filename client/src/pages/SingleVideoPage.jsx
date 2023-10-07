@@ -3,14 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { singlevideoPageOn } from "../features/togglesidebar/togglesidebarSlice";
 import VideoPageButtons from "../components/VideoPageButtons";
 import Comments from "../components/Comments";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { assignSingleVideo } from "../features/videorender/videoRenderSlice";
 import timeElapsed from "../../utilities/datefunction";
+import SmallVideo from "../components/smallVideo";
+import { assignWhVideos } from "../features/auth/authSlice";
 
 export default function SingleVideoPage() {
   const dispatch = useDispatch();
-  const { singleVideo } = useSelector((state) => state.videoRender);
+  const { singleVideo, videos } = useSelector((state) => state.videoRender);
+  const { user } = useSelector((state) => state.auth);
 
   const { id } = useParams();
 
@@ -19,7 +22,7 @@ export default function SingleVideoPage() {
     const { data } = await axios.get(`/api/video/find/${id}`);
     if (data) {
       dispatch(assignSingleVideo(data));
-      console.log(data);
+      // console.log(data);
     } else {
       console.log("no data");
     }
@@ -30,9 +33,25 @@ export default function SingleVideoPage() {
     const { data } = await axios.patch(`/api/video/updateviews/${id}`);
     if (data) {
       dispatch(assignSingleVideo(data));
-      console.log(data);
+      // console.log(data);
     } else {
       console.log("no data");
+    }
+  }
+
+  //function for updating history
+  async function updateHistory() {
+    if (user) {
+      const { data } = await axios.patch("/api/auth/updatehistory", {
+        videoId: id,
+        isAdd: "add",
+        userId: user._id,
+      });
+      if (data) {
+        dispatch(assignWhVideos(data.history));
+      } else {
+        console.log("no data");
+      }
     }
   }
 
@@ -40,7 +59,8 @@ export default function SingleVideoPage() {
     dispatch(singlevideoPageOn());
     getSingleVideo();
     updateViews();
-  }, []);
+    updateHistory();
+  }, [id]);
 
   return (
     <div className="ps-28 py-5 flex gap-5 justify-between min-h-screen">
@@ -86,7 +106,38 @@ export default function SingleVideoPage() {
         </div>
       </div>
       <div className="more-video-container">
-        <h2>More videos</h2>
+        <h2 className=" text-lg">More videos</h2>
+
+        {videos?.length > 0 &&
+          videos.map((video) => {
+            return (
+              <div
+                key={video._id}
+                className=" flex gap-2 py-4 border-b border-neutral-800"
+              >
+                <div className="more-videos ">
+                  <Link to={`/videopage/${video._id}`}>
+                    <SmallVideo
+                      vid={`http://localhost:3000/uploads/${video.fileName}`}
+                    />
+                  </Link>
+                </div>
+                <div>
+                  <Link to={`/videopage/${video._id}`} className="mb-2">
+                    {video.videoName.slice(0, 24)}.....
+                  </Link>
+                  <p className="text-gray-500 text-sm">
+                    {video.uploader.channelName}
+                  </p>
+                  <div className=" text-gray-500 text-sm flex gap-2">
+                    <p>{timeElapsed(video.created)} ago</p>
+                    <p>.</p>
+                    <p>{video.views} views</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
       </div>
     </div>
   );
