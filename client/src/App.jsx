@@ -13,6 +13,7 @@ import SignUpPage from "./pages/SignUpPage";
 import CreateChannel from "./components/CreateChannel";
 import { useSelector } from "react-redux";
 import Channel from "./pages/Channel";
+import SearchPage from "./pages/SearchPage";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "mychannel",
         element: <Channel />,
+      },
+      {
+        path: "search/:searchQuery",
+        element: <SearchPage />,
       },
     ],
   },

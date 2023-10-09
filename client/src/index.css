@@ -44,3 +44,6 @@
 .homevideo {
   min-width: 24rem;
 }
+.video {
+  min-width: 60rem;
+}

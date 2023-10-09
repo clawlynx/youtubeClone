@@ -5,7 +5,10 @@ import VideoPageButtons from "../components/VideoPageButtons";
 import Comments from "../components/Comments";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { assignSingleVideo } from "../features/videorender/videoRenderSlice";
+import {
+  assignAllVideos,
+  assignSingleVideo,
+} from "../features/videorender/videoRenderSlice";
 import timeElapsed from "../../utilities/datefunction";
 import SmallVideo from "../components/smallVideo";
 import { assignWhVideos } from "../features/auth/authSlice";
@@ -55,16 +58,29 @@ export default function SingleVideoPage() {
     }
   }
 
+  //function for fetching more videos
+  async function fetchAllVideos() {
+    const { data } = await axios.get("/api/video/all");
+    if (data) {
+      dispatch(assignAllVideos(data));
+      console.log(data);
+    } else {
+      console.log("no videos");
+      dispatch(assignAllVideos([]));
+    }
+  }
+
   useEffect(() => {
     dispatch(singlevideoPageOn());
     getSingleVideo();
     updateViews();
     updateHistory();
+    fetchAllVideos();
   }, [id]);
 
   return (
     <div className="ps-28 py-5 flex gap-5 justify-between min-h-screen">
-      <div>
+      <div className="">
         <div className="">
           <video
             className="videodiv"
@@ -109,7 +125,7 @@ export default function SingleVideoPage() {
         <h2 className=" text-lg">More videos</h2>
 
         {videos?.length > 0 &&
-          videos.map((video) => {
+          videos?.map((video) => {
             return (
               <div
                 key={video._id}

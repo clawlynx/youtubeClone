@@ -4,20 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { hideSuggestion, setCurrentItem } from "../features/search/searchSlice";
 
 export default function SearchList() {
-  const { history, currentItem } = useSelector((state) => state.search);
-  const [historyArray, setHistoryArray] = useState([]);
+  const { currentItem } = useSelector((state) => state.search);
+  const { videos } = useSelector((state) => state.videoRender);
 
-  useEffect(() => {
-    setHistoryArray(history);
-  }, []);
+  const [titleArray, setTitleArray] = useState([]);
 
-  useEffect(() => {
-    setHistoryArray(() =>
-      history.filter((item) =>
-        item.toUpperCase().includes(currentItem.toUpperCase())
-      )
+  function searched() {
+    const titleArray = videos?.filter((item) =>
+      item.videoName.toUpperCase().includes(currentItem.toUpperCase())
     );
-  }, [currentItem]);
+    return titleArray;
+  }
 
   const dispatch = useDispatch();
 
@@ -26,18 +23,21 @@ export default function SearchList() {
     dispatch(hideSuggestion());
   }
 
+  useEffect(() => {
+    setTitleArray(() => searched());
+  }, [currentItem]);
   return (
     <div className=" absolute bg-neutral-900 text-white w-96 p-2">
-      {historyArray &&
-        historyArray.map((item, index) => {
+      {titleArray &&
+        titleArray?.slice(0, 6).map((item) => {
           return (
             <div
-              key={index}
+              key={item._id}
               className="p-2 hover:bg-black flex items-center gap-2 border-b border-black cursor-pointer"
-              onClick={() => handleClick(item)}
+              onClick={() => handleClick(item.videoName)}
             >
               <GoSearch />
-              <p>{item}</p>
+              <p>{item.videoName}</p>
             </div>
           );
         })}

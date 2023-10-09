@@ -7,23 +7,7 @@ const initialState = {
   isDisliked: false,
   isSaved: false,
 
-  commentList: [
-    {
-      id: 1,
-      comment: "its good but not booodd",
-      user: "kira",
-    },
-    {
-      id: 2,
-      comment: "its dgfghghgjhzscdvgdfgdfcsdf booodd",
-      user: "jgjjk",
-    },
-    {
-      id: 3,
-      comment: "gldfjadhnrnciweegfy good but not booodd",
-      user: "sik",
-    },
-  ],
+  commentList: [],
 };
 
 const videoRenderSlice = createSlice({
@@ -49,13 +33,12 @@ const videoRenderSlice = createSlice({
       state.isSaved = false;
     },
     addComment: (state, { payload }) => {
-      state.commentList.push(payload);
+      state.commentList = payload;
+      if (state.commentList.length > 0) {
+        state.commentList.reverse();
+      }
     },
-    deleteComment: (state, { payload }) => {
-      state.commentList = state.commentList.filter(
-        (item) => item.id !== payload
-      );
-    },
+
     editComment: (state, { payload }) => {
       state.commentList = state.commentList.filter(
         (item) => item.id !== payload.id
@@ -79,7 +62,7 @@ export const {
   markSaved,
   unmarkSaved,
   addComment,
-  deleteComment,
+
   editComment,
   assignAllVideos,
   assignSingleVideo,

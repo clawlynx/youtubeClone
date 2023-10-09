@@ -11,6 +11,7 @@ import authRouter from "./routes/authRoute.js";
 import channelRouter from "./routes/channelRoute.js";
 import videoRouter from "./routes/videoRoute.js";
 import buttonsRouter from "./routes/buttonsRoute.js";
+import commentRouter from "./routes/commentRoute.js";
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/channel", channelRouter);
 app.use("/api/video", videoRouter);
 app.use("/api/buttonactions", buttonsRouter);
+app.use("/api/comment", commentRouter);
 
 app.use("*", (req, res) => {
   res.status(404).json({ msg: "not found" });

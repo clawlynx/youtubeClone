@@ -2,8 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isClicked: false,
+  videoTitles: [],
+
   currentItem: "",
-  history: ["item 1", "python", "java", "javascript", "react", "mongoose"],
 };
 
 const searchSlice = createSlice({
@@ -16,12 +17,23 @@ const searchSlice = createSlice({
     hideSuggestion: (state) => {
       state.isClicked = false;
     },
+    toggleSuggestion: (state) => {
+      state.isClicked = !state.isClicked;
+    },
+    assignVideoTitles: (state, { payload }) => {
+      state.videoTitles = payload;
+    },
     setCurrentItem: (state, { payload }) => {
       state.currentItem = payload;
     },
   },
 });
 
-export const { showSuggestions, setCurrentItem, hideSuggestion } =
-  searchSlice.actions;
+export const {
+  showSuggestions,
+  assignVideoTitles,
+  toggleSuggestion,
+  setCurrentItem,
+  hideSuggestion,
+} = searchSlice.actions;
 export default searchSlice.reducer;

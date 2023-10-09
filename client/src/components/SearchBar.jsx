@@ -6,17 +6,18 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   hideSuggestion,
   setCurrentItem,
-  showSuggestions,
+  toggleSuggestion,
 } from "../features/search/searchSlice";
+import { Link } from "react-router-dom";
 
 export default function SearchBar() {
-  const { isClicked, currentItem, history } = useSelector(
-    (state) => state.search
-  );
+  const { isClicked, currentItem } = useSelector((state) => state.search);
+
   const dispatch = useDispatch();
 
-  function handleSearch() {
+  async function handleSearch() {
     dispatch(hideSuggestion());
+    dispatch(setCurrentItem(""));
   }
 
   function handleChange(e) {
@@ -29,7 +30,7 @@ export default function SearchBar() {
         <div className="">
           <input
             type="text"
-            onClick={() => dispatch(showSuggestions())}
+            onClick={() => dispatch(toggleSuggestion())}
             onChange={(e) => handleChange(e)}
             className=" p-2 w-96 bg-neutral-950 text-white rounded"
             value={currentItem}
@@ -37,12 +38,13 @@ export default function SearchBar() {
           ></input>
           {isClicked && <SearchList />}
         </div>
-        <div
+        <Link
+          to={`/search/${currentItem}`}
           className="bg-neutral-700 hover:bg-neutral-800 mx-2 flex items-center rounded cursor-pointer"
           onClick={handleSearch}
         >
           <GoSearch className="p-2" color="white" size={"2rem"} />
-        </div>
+        </Link>
         <div className="bg-neutral-700 hover:bg-neutral-800 mx-2 rounded-full flex items-center cursor-pointer">
           <BsFillMicFill className="p-2" color="white" size={"2rem"} />
         </div>

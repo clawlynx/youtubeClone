@@ -9,6 +9,7 @@ import {
   singlevideoPageOn,
   toggleSideBar,
 } from "../features/togglesidebar/togglesidebarSlice";
+import { hideSuggestion } from "../features/search/searchSlice";
 export default function Navbar() {
   const dispatch = useDispatch();
 

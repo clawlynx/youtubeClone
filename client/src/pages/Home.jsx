@@ -20,8 +20,9 @@ export default function Home() {
 
   async function fetchUser() {
     const { data } = await axios.get("/api/auth/user");
-
-    dispatch(assignUser(data));
+    if (data) {
+      dispatch(assignUser(data));
+    }
   }
 
   useEffect(() => {

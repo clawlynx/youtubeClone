@@ -62,7 +62,7 @@ export default function UploadVideo() {
         console.log("error");
       }
     } else {
-      alert("please upload video less than 5 mb");
+      toast.warning("please upload video less than 5 mb");
     }
   }
 

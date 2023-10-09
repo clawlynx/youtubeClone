@@ -17,6 +17,7 @@ export default function LikedVideos() {
       dispatch(assignLvideos(data.likedVideos));
     } else {
       console.log("no videos");
+      dispatch(assignLvideos([]));
     }
   }
   useEffect(() => {

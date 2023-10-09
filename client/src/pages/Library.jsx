@@ -11,7 +11,7 @@ export default function Library() {
   const { whvideos, wlvideos, lvideos } = useSelector((state) => state.auth);
 
   return (
-    <div className=" min-h-screen">
+    <div className=" min-h-screen history">
       <div className=" p-3 border-b border-neutral-800">
         <div className="flex gap-2 justify-between pb-2 grow border-b border-neutral-800">
           <div className="flex gap-2">

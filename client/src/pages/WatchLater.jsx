@@ -56,6 +56,7 @@ export default function WatchLater() {
       dispatch(assignWlVideos(data?.watchLater));
     } else {
       console.log("no videos");
+      dispatch(assignWlVideos([]));
     }
   }
   useEffect(() => {
