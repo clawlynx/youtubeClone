@@ -39,12 +39,6 @@ const videoRenderSlice = createSlice({
       }
     },
 
-    editComment: (state, { payload }) => {
-      state.commentList = state.commentList.filter(
-        (item) => item.id !== payload.id
-      );
-      state.commentList.push(payload);
-    },
     assignAllVideos: (state, { payload }) => {
       state.videos = payload;
     },
@@ -62,8 +56,6 @@ export const {
   markSaved,
   unmarkSaved,
   addComment,
-
-  editComment,
   assignAllVideos,
   assignSingleVideo,
 } = videoRenderSlice.actions;

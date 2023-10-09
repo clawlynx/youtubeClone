@@ -76,7 +76,7 @@ export default function YourVideos() {
                   className="mb-2  flex justify-between gap-0 pb-3 border-b border-neutral-900"
                 >
                   <div className="flex gap-4">
-                    <div className=" max-w-sm">
+                    <div className=" max-w-sm homevideo">
                       <Link to={`/videopage/${video._id}`} className="">
                         <SmallVideo
                           vid={`http://localhost:3000/uploads/${video.fileName}`}

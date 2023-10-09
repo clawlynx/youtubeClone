@@ -125,3 +125,40 @@ export const reduceTotalVideos = async (req, res) => {
     console.log("no token");
   }
 };
+
+export const subscribe = async (req, res) => {
+  const { channelId, email } = req.body;
+  try {
+    const currentChannel = await Channel.findById(channelId);
+    let subArray = currentChannel.subscriberList;
+    let subtotal = currentChannel.subscribers;
+    subArray.push(email);
+    const updatedChannel = await Channel.findByIdAndUpdate(
+      channelId,
+      { subscriberList: subArray, subscribers: subtotal + 1 },
+      { new: true }
+    );
+    res.status(200).json(updatedChannel);
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const unsubscribe = async (req, res) => {
+  const { channelId, email } = req.body;
+  try {
+    const currentChannel = await Channel.findById(channelId);
+    let subArray = currentChannel.subscriberList;
+    let subtotal = currentChannel.subscribers;
+    const index = subArray.indexOf(email);
+    subArray.splice(index, 1);
+    const updatedChannel = await Channel.findByIdAndUpdate(
+      channelId,
+      { subscriberList: subArray, subscribers: subtotal - 1 },
+      { new: true }
+    );
+    res.status(200).json(updatedChannel);
+  } catch (error) {
+    throw new Error(error);
+  }
+};

@@ -4,6 +4,8 @@ import {
   editChannel,
   getChannel,
   reduceTotalVideos,
+  subscribe,
+  unsubscribe,
   updateTotalVideos,
 } from "../controllers/channelController.js";
 
@@ -14,5 +16,7 @@ router.get("/data", getChannel);
 router.patch("/edit", editChannel);
 router.patch("/updatetotalvideos", updateTotalVideos);
 router.patch("/reducetotalvideos", reduceTotalVideos);
+router.patch("/subscribe", subscribe);
+router.patch("/unsubscribe", unsubscribe);
 
 export default router;

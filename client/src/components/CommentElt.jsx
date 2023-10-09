@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
+import { MdLocationPin } from "react-icons/md";
 
 import timeElapsed from "../../utilities/datefunction";
 import axios from "axios";
@@ -10,6 +11,7 @@ export default function CommentElt({
   commentUser,
   commentid,
   commentorigin,
+  commentlocation,
   handleEdit,
   fetchcomment,
 }) {
@@ -34,9 +36,13 @@ export default function CommentElt({
           <div>
             <p className=" text-gray-600 text-sm">{commentUser?.username}</p>
             <p>{commentbody}</p>
-            <p className=" text-gray-600 text-sm">
-              {timeElapsed(commentorigin)} ago
-            </p>
+            <div className="flex gap-3 items-center">
+              <p className=" text-gray-600 text-sm me-3">
+                {timeElapsed(commentorigin)} ago
+              </p>
+              <MdLocationPin size={"1rem"} />
+              <p className=" text-gray-600 text-sm">{commentlocation}</p>
+            </div>
           </div>
         </div>
         <div className="flex pb-2 justify-end gap-4">

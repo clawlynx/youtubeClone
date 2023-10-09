@@ -12,6 +12,7 @@ import {
 import timeElapsed from "../../utilities/datefunction";
 import SmallVideo from "../components/smallVideo";
 import { assignWhVideos } from "../features/auth/authSlice";
+import { toast } from "react-toastify";
 
 export default function SingleVideoPage() {
   const dispatch = useDispatch();
@@ -54,6 +55,39 @@ export default function SingleVideoPage() {
         dispatch(assignWhVideos(data.history));
       } else {
         console.log("no data");
+      }
+    }
+  }
+
+  //function for subscription
+  async function subscribe() {
+    if (!user) {
+      toast.warning("please login to subscribe");
+    } else {
+      const { data } = await axios.patch("/api/channel/subscribe", {
+        email: user?.email,
+        channelId: singleVideo?.uploader?._id,
+      });
+      if (data) {
+        getSingleVideo();
+      } else {
+        toast.error("failed to subscribe. please try again later");
+      }
+    }
+  }
+  //function for unsubscription
+  async function unsubscribe() {
+    if (!user) {
+      toast.warning("please login to unsubscribe");
+    } else {
+      const { data } = await axios.patch("/api/channel/unsubscribe", {
+        email: user?.email,
+        channelId: singleVideo?.uploader?._id,
+      });
+      if (data) {
+        getSingleVideo();
+      } else {
+        toast.error("failed to unsubscribe. please try again later");
       }
     }
   }
@@ -109,6 +143,21 @@ export default function SingleVideoPage() {
             <p className=" text-xl font-bold">
               {singleVideo?.uploader?.channelName}
             </p>
+            {singleVideo?.uploader?.subscriberList.includes(user?.email) ? (
+              <div
+                className="ms-4 bg-blue-500 hover:bg-blue-700 py-1 px-2 rounded-lg cursor-pointer"
+                onClick={unsubscribe}
+              >
+                <p className=" text-xl">Subscribed</p>
+              </div>
+            ) : (
+              <div
+                className="ms-4 bg-neutral-700 hover:bg-neutral-800 py-1 px-2 rounded-lg cursor-pointer"
+                onClick={subscribe}
+              >
+                <p className=" text-xl">Subscribe</p>
+              </div>
+            )}
           </div>
           <div className="my-3 py-2 bg-neutral-600 rounded-lg border-b border-neutral-800">
             <p className="px-2 text-gray-300">
