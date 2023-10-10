@@ -11,9 +11,12 @@ import {
   MdOutlineWatchLater,
   MdOutlineVideoLibrary,
 } from "react-icons/md";
+import { useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
+import { toggleCategory } from "../features/togglesidebar/togglesidebarSlice";
 
 export default function BigSideBar() {
+  const dispatch = useDispatch();
   return (
     <div className=" bg-neutral-900 py-5 px-1 border-e border-neutral-800 overflow-y-auto h-full bigsidebar">
       <div className=" border-b border-neutral-800 pb-2">
@@ -24,7 +27,10 @@ export default function BigSideBar() {
           <AiOutlineHome size={"1.75rem"} />
           <p className="text-lg">Home</p>
         </NavLink>
-        <div className=" flex gap-2 p-3 pb-4 items-center hover:bg-neutral-950 cursor-pointer">
+        <div
+          className=" flex gap-2 p-3 pb-4 items-center hover:bg-neutral-950 cursor-pointer"
+          onClick={() => dispatch(toggleCategory())}
+        >
           <MdOutlineExplore size={"1.75rem"} />
           <p className="text-lg">Explore</p>
         </div>

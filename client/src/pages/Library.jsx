@@ -1,14 +1,58 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaHistory } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import LibraryComponent from "../components/LibraryComponent";
 import { MdOutlineWatchLater } from "react-icons/md";
 import { AiOutlineLike } from "react-icons/ai";
+import axios from "axios";
+import {
+  assignLvideos,
+  assignWhVideos,
+  assignWlVideos,
+} from "../features/auth/authSlice";
 
 export default function Library() {
   const { whvideos, wlvideos, lvideos } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  //function for initialrender
+  async function getHistory() {
+    const { data } = await axios.get("/api/auth/getlwlwhVideos");
+
+    if (data) {
+      dispatch(assignWhVideos(data.history));
+    } else {
+      console.log("no history");
+      dispatch(assignWhVideos([]));
+    }
+  }
+  //function for fetching saved videos
+  async function fetchsavedvideos() {
+    const { data } = await axios.get("/api/auth/getlwlwhVideos");
+    if (data) {
+      dispatch(assignWlVideos(data?.watchLater));
+    } else {
+      console.log("no videos");
+      dispatch(assignWlVideos([]));
+    }
+  }
+  //function for fetching liked videos
+  async function fetchlikedvideos() {
+    const { data } = await axios.get("/api/auth/getlwlwhVideos");
+    if (data) {
+      dispatch(assignLvideos(data.likedVideos));
+    } else {
+      console.log("no videos");
+      dispatch(assignLvideos([]));
+    }
+  }
+  useEffect(() => {
+    getHistory();
+    fetchsavedvideos();
+    fetchlikedvideos();
+  }, []);
 
   return (
     <div className=" min-h-screen history">

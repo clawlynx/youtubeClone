@@ -47,7 +47,6 @@ export default function Channel() {
               <p>{channelDetails?.channelDescription}</p>
               <p>Subscribers: {channelDetails?.subscribers}</p>
               <p>Videos: {channelDetails?.totalVideos}</p>
-              <p>Total Likes: {channelDetails?.totalLikes}</p>
             </div>
           </div>
           <div className="self-end">

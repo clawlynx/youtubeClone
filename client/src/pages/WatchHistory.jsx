@@ -14,7 +14,7 @@ export default function WatchHistory() {
   //function for initialrender
   async function getHistory() {
     const { data } = await axios.get("/api/auth/getlwlwhVideos");
-    console.log(data);
+
     if (data) {
       dispatch(assignWhVideos(data.history));
     } else {

@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SmallVideo from "../components/smallVideo";
 import { Link } from "react-router-dom";
-import { assignAllVideos } from "../features/videorender/videoRenderSlice";
+import {
+  assignAllVideos,
+  trueIsSubscribed,
+} from "../features/videorender/videoRenderSlice";
 import axios from "axios";
 import timeElapsed from "../../utilities/datefunction";
 import { singlevideoPageOff } from "../features/togglesidebar/togglesidebarSlice";
@@ -24,7 +27,9 @@ const categories = [
 
 export default function HomeVideo() {
   const { videos } = useSelector((state) => state.videoRender);
-  const { showBigBar } = useSelector((state) => state.toggleSideBar);
+  const { showBigBar, categoryList } = useSelector(
+    (state) => state.toggleSideBar
+  );
   const dispatch = useDispatch();
 
   async function fetchAllVideos() {
@@ -41,19 +46,21 @@ export default function HomeVideo() {
   useEffect(() => {
     fetchAllVideos();
     dispatch(singlevideoPageOff());
+    dispatch(trueIsSubscribed());
   }, []);
 
   return (
     <div className="min-h-screen">
       <div className=" flex bg-neutral-950 border-b border-neutral-800 p-2 justify-between mx-0 mb-2 channelpage ">
-        {categories.map((item) => (
-          <p
-            className=" px-2 py-1 bg-neutral-900 rounded-lg cursor-pointer hover:bg-neutral-800"
-            key={item}
-          >
-            {item}
-          </p>
-        ))}
+        {categoryList &&
+          categories.map((item) => (
+            <p
+              className=" px-2 py-1 bg-neutral-900 rounded-lg cursor-pointer hover:bg-neutral-800"
+              key={item}
+            >
+              {item}
+            </p>
+          ))}
       </div>
       <div
         className={`grid grid-cols-4 p-2 ${showBigBar ? "gap-7" : "gap-16"}`}

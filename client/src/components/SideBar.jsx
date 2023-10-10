@@ -5,9 +5,12 @@ import {
   MdOutlineVideoLibrary,
   MdOutlineSubscriptions,
 } from "react-icons/md";
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { toggleCategory } from "../features/togglesidebar/togglesidebarSlice";
 
 export default function SideBar() {
+  const dispatch = useDispatch();
   return (
     <div className=" bg-neutral-900 py-5 px-1 border-e h-screen border-neutral-800">
       <NavLink
@@ -20,6 +23,7 @@ export default function SideBar() {
       <NavLink
         to={"/explore"}
         className="flex flex-col gap-2 px-3 py-2 hover:bg-neutral-950 rounded justify-center items-center cursor-pointer"
+        onClick={() => dispatch(toggleCategory())}
       >
         <MdOutlineExplore size={"1.25rem"} />
         <p className=" text-sm">Explore</p>

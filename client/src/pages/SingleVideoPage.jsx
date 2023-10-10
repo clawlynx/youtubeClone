@@ -8,15 +8,19 @@ import axios from "axios";
 import {
   assignAllVideos,
   assignSingleVideo,
+  falseIsSubscribed,
 } from "../features/videorender/videoRenderSlice";
 import timeElapsed from "../../utilities/datefunction";
 import SmallVideo from "../components/smallVideo";
 import { assignWhVideos } from "../features/auth/authSlice";
 import { toast } from "react-toastify";
+import Subscribe from "../components/Subscribe";
 
 export default function SingleVideoPage() {
   const dispatch = useDispatch();
-  const { singleVideo, videos } = useSelector((state) => state.videoRender);
+  const { singleVideo, videos, isSubscribed } = useSelector(
+    (state) => state.videoRender
+  );
   const { user } = useSelector((state) => state.auth);
 
   const { id } = useParams();
@@ -26,6 +30,9 @@ export default function SingleVideoPage() {
     const { data } = await axios.get(`/api/video/find/${id}`);
     if (data) {
       dispatch(assignSingleVideo(data));
+      if (data.subscribersOnly === true) {
+        dispatch(falseIsSubscribed());
+      }
       // console.log(data);
     } else {
       console.log("no data");
@@ -114,6 +121,11 @@ export default function SingleVideoPage() {
 
   return (
     <div className="ps-28 py-5 flex gap-5 justify-between min-h-screen">
+      {user?._id !== singleVideo?.accountHolder &&
+        !isSubscribed &&
+        !singleVideo?.uploader?.subscriberList.includes(user?.email) && (
+          <Subscribe subscribe={subscribe} />
+        )}
       <div className="">
         <div className="">
           <video
@@ -143,7 +155,10 @@ export default function SingleVideoPage() {
             <p className=" text-xl font-bold">
               {singleVideo?.uploader?.channelName}
             </p>
-            {singleVideo?.uploader?.subscriberList.includes(user?.email) ? (
+            {singleVideo?.accountHolder ===
+            user?._id ? null : singleVideo?.uploader?.subscriberList.includes(
+                user?.email
+              ) ? (
               <div
                 className="ms-4 bg-blue-500 hover:bg-blue-700 py-1 px-2 rounded-lg cursor-pointer"
                 onClick={unsubscribe}
@@ -158,6 +173,7 @@ export default function SingleVideoPage() {
                 <p className=" text-xl">Subscribe</p>
               </div>
             )}
+            {}
           </div>
           <div className="my-3 py-2 bg-neutral-600 rounded-lg border-b border-neutral-800">
             <p className="px-2 text-gray-300">

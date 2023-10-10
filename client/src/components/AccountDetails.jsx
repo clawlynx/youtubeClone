@@ -63,7 +63,6 @@ export default function AccountDetails({ drop }) {
               </p>
               <p>Subscribers: {channelDetails?.subscribers}</p>
               <p>videos: {channelDetails?.totalVideos}</p>
-              <p>Likes: {channelDetails?.totalLikes}</p>
             </div>
             <div className="py-2 border-b border-neutral-700 flex justify-center">
               <Link

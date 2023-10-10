@@ -11,6 +11,7 @@ export const createVideo = async (req, res) => {
         videoName: req.body.videoName,
         videoDescription: req.body.videoDescription,
         uploader: req.body.uploader,
+        subscribersOnly: req.body.subscribersOnly,
         accountHolder: userId,
         created: new Date(Date.now()).toISOString(),
       });

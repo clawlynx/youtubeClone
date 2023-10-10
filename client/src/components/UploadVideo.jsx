@@ -17,6 +17,7 @@ export default function UploadVideo() {
   const { channelDetails } = useSelector((state) => state.channel);
   const [videoFile, setVideoFile] = useState("");
   const [videoName, setVideoName] = useState("");
+  const [subscribersOnly, setSubscribersOnly] = useState(false);
   const [videoDescription, setVideoDescription] = useState("");
 
   async function fetchChannelVideos() {
@@ -51,6 +52,7 @@ export default function UploadVideo() {
       fileData.append("videoName", videoName);
       fileData.append("videoDescription", videoDescription);
       fileData.append("uploader", channelDetails?._id);
+      fileData.append("subscribersOnly", subscribersOnly);
       const { data } = await axios.post("/api/video/create", fileData);
       if (data) {
         console.log(data);
@@ -97,6 +99,16 @@ export default function UploadVideo() {
             placeholder="your description"
             required
           ></textarea>
+          <label className="py-2 text-lg">Subscribers Only</label>
+          <input
+            className="p-2 ms-3 rounded-full text-lg"
+            type="checkbox"
+            checked={subscribersOnly}
+            onChange={() => setSubscribersOnly(!subscribersOnly)}
+          ></input>
+          <p>
+            {`(check this option so that only subscribers will be able to view content)`}{" "}
+          </p>
           <p className="py-2 text-lg">Choose a File</p>
           <input
             className=" p-1 rounded-md bg-neutral-900"

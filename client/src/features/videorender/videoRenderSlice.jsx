@@ -6,7 +6,7 @@ const initialState = {
   isLiked: false,
   isDisliked: false,
   isSaved: false,
-
+  isSubscribed: true,
   commentList: [],
 };
 
@@ -32,6 +32,12 @@ const videoRenderSlice = createSlice({
     unmarkSaved: (state) => {
       state.isSaved = false;
     },
+    falseIsSubscribed: (state) => {
+      state.isSubscribed = false;
+    },
+    trueIsSubscribed: (state) => {
+      state.isSubscribed = true;
+    },
     addComment: (state, { payload }) => {
       state.commentList = payload;
       if (state.commentList.length > 0) {
@@ -55,6 +61,8 @@ export const {
   unmarkDisliked,
   markSaved,
   unmarkSaved,
+  falseIsSubscribed,
+  trueIsSubscribed,
   addComment,
   assignAllVideos,
   assignSingleVideo,
