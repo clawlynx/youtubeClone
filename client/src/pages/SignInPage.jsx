@@ -38,12 +38,16 @@ export default function SignInPage() {
     };
     const { data } = await axios.post("/api/auth/login", userData);
     if (data) {
-      console.log("login successful");
-      navigate("/");
-      fetchChannel();
-      toast.success("login successful");
+      if (data.msg === "loginSuccessfull") {
+        console.log("login successful");
+        navigate("/");
+        fetchChannel();
+        toast.success("login successful");
+      } else {
+        toast.error(`${data.msg}`);
+      }
     } else {
-      console.log("something wrong");
+      console.log("login failed");
     }
   }
 

@@ -16,6 +16,7 @@ const userSchema = new Schema(
     watchLater: { type: [mongoose.Types.ObjectId], ref: "Video", default: [] },
     history: { type: [mongoose.Types.ObjectId], ref: "Video", default: [] },
     searchHistory: [String],
+    tryouts: { type: Number, default: 0 },
   },
   {
     timestamps: true,

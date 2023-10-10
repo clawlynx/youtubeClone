@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { User } from "../models/User.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import { sendMail, transporter } from "../utilities/nodemailer.js";
 
 export const createUser = async (req, res) => {
   const { username, email, password } = req.body;
@@ -12,6 +13,7 @@ export const createUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      tryouts: 0,
     });
     await newUser.save();
     res.status(201).json(newUser);
@@ -27,8 +29,10 @@ export const loginUser = async (req, res) => {
     const currentUser = await User.findOne({ email: email });
     console.log(currentUser);
     if (currentUser) {
+      let tries = currentUser.tryouts;
       const isPassOk = await bcrypt.compare(password, currentUser.password);
       if (isPassOk) {
+        await User.findOneAndUpdate({ email: email }, { tryouts: 0 });
         const token = jwt.sign(
           {
             userId: currentUser._id,
@@ -48,10 +52,28 @@ export const loginUser = async (req, res) => {
         });
         res.status(200).json({ msg: "loginSuccessfull" });
       } else {
-        throw new Error();
+        let newtries = tries + 1;
+        await User.findOneAndUpdate({ email: email }, { tryouts: newtries });
+        if (newtries === 3) {
+          const mailOptions = {
+            from: {
+              name: "youTubeClone",
+              address: process.env.MAIL_ID,
+            },
+            to: currentUser.email,
+            subject: "Failed login Attempt",
+            text: "Your account has encountered continuous 3 failed login attempts. After 5 attempts your account will be temporarily blocked for 1 hour",
+          };
+          await sendMail(transporter, mailOptions);
+        }
+        res.status(200).json({
+          msg: `Incorrect password. You have ${5 - newtries} attempts left`,
+        });
       }
     } else {
-      throw new Error();
+      res.json({
+        msg: "No valid users with this email. Kindly register first",
+      });
     }
   } catch (error) {
     throw new Error(error);
