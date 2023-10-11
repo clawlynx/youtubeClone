@@ -59,7 +59,7 @@ export default function Comments() {
     const updata = {
       id: editId,
       body: comment,
-      //location: `${city}, ${state}, ${country}`,
+      location: `${city}, ${state}, ${country}`,
     };
     const { data } = await axios.patch("/api/comment/edit", updata);
     if (data) {
