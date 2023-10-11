@@ -73,9 +73,7 @@ export default function HomeVideo() {
                   to={`/videopage/${video._id}`}
                   className=" cursor-pointer"
                 >
-                  <SmallVideo
-                    vid={`http://localhost:3000/uploads/${video.fileName}`}
-                  />
+                  <SmallVideo vid={`/uploads/${video.fileName}`} />
                 </Link>
               </div>
               <div className=" py-3 px-2 ">

@@ -17,6 +17,7 @@ export default function AccountDetails({ drop }) {
 
   const dispatch = useDispatch();
 
+  //function to fetch channel details
   async function fetchChannel() {
     const { data } = await axios.get("/api/channel/data");
     if (data) {
@@ -27,6 +28,7 @@ export default function AccountDetails({ drop }) {
     }
   }
 
+  //function for signing out
   async function handleSignOut(e) {
     e.stopPropagation();
     const { data } = await axios.get("/api/auth/signout");

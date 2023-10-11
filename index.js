@@ -3,7 +3,7 @@ dotenv.config();
 import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
-import path from "path";
+import path, { dirname } from "path";
 import morgan from "morgan";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -12,6 +12,7 @@ import channelRouter from "./routes/channelRoute.js";
 import videoRouter from "./routes/videoRoute.js";
 import buttonsRouter from "./routes/buttonsRoute.js";
 import commentRouter from "./routes/commentRoute.js";
+import { fileURLToPath } from "url";
 
 const app = express();
 
@@ -19,7 +20,9 @@ app.use(cookieParser());
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use("/uploads", express.static(path.join("uploads")));
+//app.use("/uploads", express.static(path.join("uploads")));
+const __dirname = dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.resolve(__dirname, "./public")));
 app.use(cors());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -34,6 +37,10 @@ app.use("/api/channel", channelRouter);
 app.use("/api/video", videoRouter);
 app.use("/api/buttonactions", buttonsRouter);
 app.use("/api/comment", commentRouter);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./public", "index.html"));
+});
 
 app.use("*", (req, res) => {
   res.status(404).json({ msg: "not found" });

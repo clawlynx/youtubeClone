@@ -17,6 +17,7 @@ export default function CommentElt({
 }) {
   const { user } = useSelector((state) => state.auth);
 
+  //function to delete a comment
   async function handleDelete(id) {
     const { data } = await axios.delete(`/api/comment/delete/${id}`);
     if (data) {

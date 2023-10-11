@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { sendMail, transporter } from "../utilities/nodemailer.js";
 
+//function to create a user
 export const createUser = async (req, res) => {
   const { username, email, password } = req.body;
   const salt = await bcrypt.genSalt(10);
@@ -22,14 +23,25 @@ export const createUser = async (req, res) => {
   }
 };
 
+//function for credential login with security and authorization
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   const jwtsecret = process.env.JWT_SECRET;
   try {
     const currentUser = await User.findOne({ email: email });
-    console.log(currentUser);
+
     if (currentUser) {
       let tries = currentUser.tryouts;
+      if (tries === 5) {
+        const existingblocktime = new Date(currentUser.blocktime);
+        const currentDate = new Date();
+        const timeremaining = currentDate - existingblocktime;
+        //console.log(timeremaining);
+        if (timeremaining < 3600000) {
+          res.json({ msg: "account has been blocked please try later" });
+          return;
+        }
+      }
       const isPassOk = await bcrypt.compare(password, currentUser.password);
       if (isPassOk) {
         await User.findOneAndUpdate({ email: email }, { tryouts: 0 });
@@ -66,9 +78,43 @@ export const loginUser = async (req, res) => {
           };
           await sendMail(transporter, mailOptions);
         }
-        res.status(200).json({
-          msg: `Incorrect password. You have ${5 - newtries} attempts left`,
-        });
+        if (newtries === 3) {
+          const mailOptions = {
+            from: {
+              name: "youTubeClone",
+              address: process.env.MAIL_ID,
+            },
+            to: currentUser.email,
+            subject: "Failed login Attempt",
+            text: "Your account has encountered continuous 3 failed login attempts. After 5 attempts your account will be temporarily blocked for 1 hour",
+          };
+          await sendMail(transporter, mailOptions);
+        }
+        if (newtries < 5) {
+          res.status(200).json({
+            msg: `Incorrect password. You have ${5 - newtries} attempts left`,
+          });
+        }
+        if (newtries === 5) {
+          const mailOptions = {
+            from: {
+              name: "youTubeClone",
+              address: process.env.MAIL_ID,
+            },
+            to: currentUser.email,
+            subject: "Account Blocked",
+            text: "Your account has been temporarily blocked for 1 hour due to continuous 5 login attempts. please login with the correct password after 1 hour",
+          };
+          await sendMail(transporter, mailOptions);
+          const blocktime = new Date(Date.now());
+          await User.findOneAndUpdate(
+            { email: email },
+            { blocktime: blocktime }
+          );
+          res.status(200).json({
+            msg: `Incorrect password. your Account has been blocked for 1 hour`,
+          });
+        }
       }
     } else {
       res.json({
@@ -80,6 +126,7 @@ export const loginUser = async (req, res) => {
   }
 };
 
+//function too get details of single user
 export const getUser = async (req, res) => {
   const { token } = req.cookies;
 
@@ -97,6 +144,7 @@ export const getUser = async (req, res) => {
   }
 };
 
+//function to logout
 export const signOutUser = (req, res) => {
   res.cookie("token", "logout", {
     httpOnly: true,
@@ -105,6 +153,7 @@ export const signOutUser = (req, res) => {
   res.status(200).json({ msg: "successfully logout" });
 };
 
+// function for google signin
 export const googleSignIn = async (req, res) => {
   const { username, email, image } = req.body;
   try {
@@ -157,6 +206,7 @@ export const googleSignIn = async (req, res) => {
   }
 };
 
+//function for getting watchhistory, liked, and watch later videos
 export const getlwlwhVideos = async (req, res) => {
   const { token } = req.cookies;
 
@@ -178,6 +228,7 @@ export const getlwlwhVideos = async (req, res) => {
   }
 };
 
+//function for removing watch later
 export const removeWatchLater = async (req, res) => {
   const { userId } = req.body;
   if (userId) {
@@ -199,6 +250,7 @@ export const removeWatchLater = async (req, res) => {
   }
 };
 
+//function for updating watch history
 export const updateHistory = async (req, res) => {
   const { userId, videoId, isAdd } = req.body;
   if (userId) {
@@ -250,6 +302,7 @@ export const updateHistory = async (req, res) => {
   }
 };
 
+//function for clearing watch history
 export const clearHistory = async (req, res) => {
   const { userId } = req.body;
   if (userId) {

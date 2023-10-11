@@ -15,6 +15,7 @@ export default function GoogleSignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  //function for fetching channel
   async function fetchChannel() {
     const { data } = await axios.get("api/channel/data");
     if (data) {
@@ -27,6 +28,7 @@ export default function GoogleSignIn() {
     }
   }
 
+  //function when google signin is success
   async function onSuccess(response) {
     var decoded = jwt_decode(response.credential);
     const userData = {

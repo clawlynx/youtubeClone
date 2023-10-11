@@ -14,9 +14,7 @@ export default function LibraryComponent({ vidarray }) {
             {vidarray.slice(0, 4).map((video) => (
               <div key={video._id} className=" w-96">
                 <Link to={`/videopage/${video._id}`}>
-                  <SmallVideo
-                    vid={`http://localhost:3000/uploads/${video.fileName}`}
-                  />
+                  <SmallVideo vid={`/uploads/${video.fileName}`} />
                 </Link>
 
                 <Link

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useNavigation } from "react-router-dom";
 import axios from "axios";
 
 import GoogleSignIn from "../components/GoogleSignIn";
@@ -16,6 +16,8 @@ export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
   const dispatch = useDispatch();
 
   async function fetchChannel() {
@@ -83,9 +85,10 @@ export default function SignInPage() {
           </div>
           <button
             type="submit"
+            disabled={isSubmitting}
             className=" bg-blue-500 p-2 w-full text-lg rounded-md hover:bg-blue-700"
           >
-            Sign In
+            {isSubmitting ? "Signing In" : "Sign In"}
           </button>
         </form>
         <p>

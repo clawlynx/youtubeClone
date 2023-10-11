@@ -17,6 +17,7 @@ const userSchema = new Schema(
     history: { type: [mongoose.Types.ObjectId], ref: "Video", default: [] },
     searchHistory: [String],
     tryouts: { type: Number, default: 0 },
+    blocktime: { type: Date, default: Date.now() },
   },
   {
     timestamps: true,

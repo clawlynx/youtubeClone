@@ -74,9 +74,7 @@ export default function WatchHistory() {
                 <div className="flex gap-4">
                   <div className=" max-w-sm homevideo">
                     <Link to={`/videopage/${video._id}`} className=" w-96 h-60">
-                      <SmallVideo
-                        vid={`http://localhost:3000/uploads/${video.fileName}`}
-                      />
+                      <SmallVideo vid={`/uploads/${video.fileName}`} />
                     </Link>
                   </div>
                   <div>

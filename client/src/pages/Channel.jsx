@@ -84,9 +84,7 @@ export default function Channel() {
                 >
                   <div className="max-w-sm overflow-hidden channelvideo">
                     <div className="">
-                      <SmallVideo
-                        vid={`http://localhost:3000/uploads/${video.fileName}`}
-                      />
+                      <SmallVideo vid={`/uploads/${video.fileName}`} />
                     </div>
                   </div>
                   <div className=" px-4">

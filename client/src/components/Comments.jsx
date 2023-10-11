@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CommentElt from "./CommentElt";
-//import VisitorAPI from "visitorapi";
+import VisitorAPI from "visitorapi";
 import { addComment } from "../features/videorender/videoRenderSlice";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -84,11 +84,11 @@ export default function Comments() {
 
   useEffect(() => {
     getComments();
-    /*VisitorAPI("GI1dZ3ssMngvbYEzaa6y", (data) => {
+    VisitorAPI("GI1dZ3ssMngvbYEzaa6y", (data) => {
       setCountry(data.countryName);
       setState(data.region);
       setCity(data.city);
-    });*/
+    });
   }, [id]);
 
   if (toEdit) {

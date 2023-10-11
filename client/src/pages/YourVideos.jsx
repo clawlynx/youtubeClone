@@ -78,9 +78,7 @@ export default function YourVideos() {
                   <div className="flex gap-4">
                     <div className=" max-w-sm homevideo">
                       <Link to={`/videopage/${video._id}`} className="">
-                        <SmallVideo
-                          vid={`http://localhost:3000/uploads/${video.fileName}`}
-                        />
+                        <SmallVideo vid={`/uploads/${video.fileName}`} />
                       </Link>
                     </div>
 

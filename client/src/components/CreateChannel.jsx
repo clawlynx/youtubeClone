@@ -15,6 +15,7 @@ export default function CreateChannel() {
   const [channelName, setChannelName] = useState("");
   const [channelDescription, setChannelDescription] = useState("");
 
+  // function for creating the channel
   async function handleSubmit(e) {
     e.preventDefault();
     const channelData = {

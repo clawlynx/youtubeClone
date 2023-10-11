@@ -6,10 +6,9 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
   singlevideoPageOff,
-  singlevideoPageOn,
   toggleSideBar,
 } from "../features/togglesidebar/togglesidebarSlice";
-import { hideSuggestion } from "../features/search/searchSlice";
+
 export default function Navbar() {
   const dispatch = useDispatch();
 

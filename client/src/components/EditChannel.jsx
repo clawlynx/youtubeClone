@@ -17,6 +17,7 @@ export default function EditChannel() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //function for editing the channel
   async function handleSubmit(e) {
     e.preventDefault();
     const channelData = {

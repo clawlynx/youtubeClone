@@ -130,7 +130,7 @@ export default function SingleVideoPage() {
         <div className="">
           <video
             className="videodiv"
-            src={`http://localhost:3000/uploads/${singleVideo?.fileName}`}
+            src={`/uploads/${singleVideo?.fileName}`}
             controls
             autoPlay
           ></video>
@@ -198,9 +198,7 @@ export default function SingleVideoPage() {
               >
                 <div className="more-videos ">
                   <Link to={`/videopage/${video._id}`}>
-                    <SmallVideo
-                      vid={`http://localhost:3000/uploads/${video.fileName}`}
-                    />
+                    <SmallVideo vid={`/uploads/${video.fileName}`} />
                   </Link>
                 </div>
                 <div>
