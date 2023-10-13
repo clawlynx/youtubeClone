@@ -13,17 +13,17 @@ export default function AccountsSectionNav() {
 
   return (
     <div className="flex gap-4 items-center">
-      <div className=" hover:bg-neutral-700 rounded-full p-2">
+      <div className=" hidden lg:block hover:bg-neutral-700 rounded-full p-2">
         <BiVideoPlus className=" cursor-pointer" size={"2rem"} color="white" />
       </div>
-      <div className=" hover:bg-neutral-700 rounded-full p-2">
+      <div className="hidden lg:block hover:bg-neutral-700 rounded-full p-2">
         <PiDotsNineBold
           className=" cursor-pointer"
           size={"2rem"}
           color="white"
         />
       </div>
-      <div className=" hover:bg-neutral-700 rounded-full p-2">
+      <div className="hidden lg:block hover:bg-neutral-700 rounded-full p-2">
         <MdOutlineNotificationsNone
           className=" cursor-pointer"
           size={"2rem"}
@@ -49,9 +49,9 @@ export default function AccountsSectionNav() {
           className=" bg-neutral-700 text-white p-2 rounded border border-sky-400 flex gap-2 items-center hover:bg-neutral-800 cursor-pointer"
         >
           <div>
-            <BiUserCircle size={"2rem"} color={"rgb(56 189 248 )"} />
+            <BiUserCircle size={"1.5rem"} color={"rgb(56 189 248 )"} />
           </div>
-          <h3 className=" text-sky-400">SignUp</h3>
+          <h3 className="sm:block hidden text-sky-400">SignUp</h3>
         </Link>
       )}
     </div>

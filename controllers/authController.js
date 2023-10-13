@@ -78,18 +78,7 @@ export const loginUser = async (req, res) => {
           };
           await sendMail(transporter, mailOptions);
         }
-        if (newtries === 3) {
-          const mailOptions = {
-            from: {
-              name: "youTubeClone",
-              address: process.env.MAIL_ID,
-            },
-            to: currentUser.email,
-            subject: "Failed login Attempt",
-            text: "Your account has encountered continuous 3 failed login attempts. After 5 attempts your account will be temporarily blocked for 1 hour",
-          };
-          await sendMail(transporter, mailOptions);
-        }
+
         if (newtries < 5) {
           res.status(200).json({
             msg: `Incorrect password. You have ${5 - newtries} attempts left`,

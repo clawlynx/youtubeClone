@@ -25,7 +25,7 @@ export default function LikedVideos() {
   }, []);
   return (
     <div className="p-2 history min-h-screen">
-      <h1 className=" font-bold text-4xl p-2 pb-4 border-b border-neutral-900">
+      <h1 className=" font-bold lg:text-4xl text-xl p-2 pb-4 border-b border-neutral-900">
         Your Liked videos shown here
       </h1>
       <div className="mt-3 flex  items-start gap-3">
@@ -39,8 +39,8 @@ export default function LikedVideos() {
                 key={video._id}
                 className="mb-2  flex justify-between gap-0 pb-3 border-b border-neutral-900"
               >
-                <div className="flex gap-4">
-                  <div className="max-w-sm">
+                <div className="flex gap-4 md:items-center items-start md:flex-row flex-col">
+                  <div className="max-w-sm homevideo">
                     <Link to={`/videopage/${video._id}`} className=" w-96 h-60">
                       <SmallVideo vid={`/uploads/${video.fileName}`} />
                     </Link>

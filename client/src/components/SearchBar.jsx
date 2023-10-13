@@ -32,7 +32,7 @@ export default function SearchBar() {
             type="text"
             onClick={() => dispatch(toggleSuggestion())}
             onChange={(e) => handleChange(e)}
-            className=" p-2 w-96 bg-neutral-950 text-white rounded"
+            className=" p-2 sm:w-auto lg:w-80 xl:w-96 bg-neutral-950 text-white rounded"
             value={currentItem}
             placeholder="Search.."
           ></input>
@@ -40,12 +40,12 @@ export default function SearchBar() {
         </div>
         <Link
           to={`/search/${currentItem}`}
-          className="bg-neutral-700 hover:bg-neutral-800 mx-2 flex items-center rounded cursor-pointer"
+          className="bg-neutral-700 hover:bg-neutral-800 sm:mx-2 mx-0 flex items-center rounded cursor-pointer"
           onClick={handleSearch}
         >
-          <GoSearch className="p-2" color="white" size={"2rem"} />
+          <GoSearch className="p-2 " color="white" size={"2rem"} />
         </Link>
-        <div className="bg-neutral-700 hover:bg-neutral-800 mx-2 rounded-full flex items-center cursor-pointer">
+        <div className="bg-neutral-700  hidden hover:bg-neutral-800 mx-2 rounded-full sm:flex items-center cursor-pointer">
           <BsFillMicFill className="p-2" color="white" size={"2rem"} />
         </div>
       </div>

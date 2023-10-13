@@ -37,7 +37,7 @@ export default function CreateChannel() {
 
   return (
     <div className=" bg-neutral-900/70 h-screen w-screen absolute z-50 flex justify-center items-center">
-      <div className="bg-neutral-800 p-3 w-1/3 z-50 text-white flex flex-col rounded-md">
+      <div className="bg-neutral-800 p-3 lg:w-1/3 w-3/4  z-50 text-white flex flex-col rounded-md">
         <div
           className="text-right self-end cursor-pointer"
           onClick={() => dispatch(toggleCreateChannel())}

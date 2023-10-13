@@ -27,7 +27,7 @@ export default function SearchList() {
     setTitleArray(() => searched());
   }, [currentItem]);
   return (
-    <div className=" absolute bg-neutral-900 text-white w-96 p-2">
+    <div className=" absolute bg-neutral-900 text-white sm:w-auto lg:w-80 xl:w-96 p-2">
       {titleArray &&
         titleArray?.slice(0, 6).map((item) => {
           return (

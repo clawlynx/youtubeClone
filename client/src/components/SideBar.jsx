@@ -12,7 +12,7 @@ import { toggleCategory } from "../features/togglesidebar/togglesidebarSlice";
 export default function SideBar() {
   const dispatch = useDispatch();
   return (
-    <div className=" bg-neutral-900 py-5 px-1 border-e h-screen border-neutral-800">
+    <div className=" bg-neutral-900 sm:py-5 py-1 px-1 border-e sm:h-screen h-fit sm:block flex justify-between border-neutral-800">
       <NavLink
         to={"/"}
         className="flex flex-col gap-2 px-3 py-3 hover:bg-neutral-950 rounded justify-center items-center cursor-pointer"
@@ -20,14 +20,13 @@ export default function SideBar() {
         <AiOutlineHome size={"1.25rem"} />
         <p className=" text-sm">Home</p>
       </NavLink>
-      <NavLink
-        to={"/explore"}
+      <div
         className="flex flex-col gap-2 px-3 py-2 hover:bg-neutral-950 rounded justify-center items-center cursor-pointer"
         onClick={() => dispatch(toggleCategory())}
       >
         <MdOutlineExplore size={"1.25rem"} />
         <p className=" text-sm">Explore</p>
-      </NavLink>
+      </div>
       <NavLink
         to={"/shorts"}
         className="flex flex-col gap-2 px-3 py-2 hover:bg-neutral-950 rounded justify-center items-center cursor-pointer"

@@ -190,7 +190,7 @@ export default function VideoPageButtons({ videoId }) {
     initialrender();
   }, [singleVideo, user]);
   return (
-    <div className=" flex gap-2 mb-1">
+    <div className=" flex sm:flex-row flex-col gap-2 mb-1">
       {isLiked ? (
         <div
           className=" flex gap-2 items-center bg-neutral-700 hover:bg-neutral-800 py-1 px-2 rounded-lg cursor-pointer"

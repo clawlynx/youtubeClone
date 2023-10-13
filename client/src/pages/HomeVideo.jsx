@@ -51,7 +51,7 @@ export default function HomeVideo() {
 
   return (
     <div className="min-h-screen">
-      <div className=" flex bg-neutral-950 border-b border-neutral-800 p-2 justify-between mx-0 mb-2 channelpage ">
+      <div className="flex bg-neutral-950 border-b border-neutral-800 p-2 justify-between mx-0  mb-2 lg:flex-row flex-col">
         {categoryList &&
           categories.map((item) => (
             <p
@@ -63,12 +63,14 @@ export default function HomeVideo() {
           ))}
       </div>
       <div
-        className={`grid grid-cols-4 p-2 ${showBigBar ? "gap-7" : "gap-16"}`}
+        className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-2 ${
+          showBigBar ? "gap-7" : "gap-16"
+        }`}
       >
         {videos?.map((video) => {
           return (
-            <div key={video._id} className="w-96">
-              <div className="max-w-sm homevideo">
+            <div key={video._id} className="mx-8">
+              <div className="max-w-sm">
                 <Link
                   to={`/videopage/${video._id}`}
                   className=" cursor-pointer"

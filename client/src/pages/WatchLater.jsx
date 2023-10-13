@@ -65,10 +65,10 @@ export default function WatchLater() {
 
   return (
     <div className="p-2 history min-h-screen">
-      <h1 className=" font-bold text-4xl p-2 pb-4 border-b border-neutral-900">
+      <h1 className=" font-bold lg:text-4xl text-xl p-2 pb-4 border-b border-neutral-900">
         Your Watch Later shown here
       </h1>
-      <div className="mt-3 flex  items-start gap-3">
+      <div className="mt-3 flex  items-start gap-3 md:flex-row flex-col-reverse">
         <div className="grow">
           <p className=" text-2xl pb-2 px-3 mb-3 border-b border-neutral-900">
             Watch later playlist
@@ -77,9 +77,9 @@ export default function WatchLater() {
             wlvideos.map((video) => (
               <div
                 key={video._id}
-                className="mb-2  flex justify-between gap-0 border-b pb-3 border-neutral-900"
+                className="mb-2  flex justify-between gap-0 border-b pb-3 border-neutral-900 sm:flex-row flex-col"
               >
-                <div className="flex gap-4">
+                <div className="flex md:items-center items-start gap-4 md:flex-row flex-col">
                   <div className=" max-w-sm homevideo">
                     <Link to={`/videopage/${video._id}`} className=" w-96 h-60">
                       <SmallVideo vid={`/uploads/${video.fileName}`} />

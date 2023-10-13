@@ -57,11 +57,11 @@ export default function WatchHistory() {
   }, []);
   return (
     <div className="p-2 history min-h-screen">
-      <h1 className=" font-bold text-4xl p-2 pb-4 border-b border-neutral-900">
+      <h1 className=" font-bold lg:text-4xl text-xl p-2 pb-4 border-b border-neutral-900">
         Your Watch History shown here
       </h1>
-      <div className="mt-3 flex  items-start gap-3">
-        <div className="grow">
+      <div className="mt-3 flex  items-start gap-3 md:flex-row flex-col-reverse">
+        <div className="">
           <p className=" text-2xl pb-2 px-3 mb-3 border-b border-neutral-900">
             History
           </p>
@@ -69,9 +69,9 @@ export default function WatchHistory() {
             whvideos.map((video) => (
               <div
                 key={video._id}
-                className="mb-2  flex justify-between gap-0 py-3 border-b border-neutral-900"
+                className="mb-2 flex sm:flex-row flex-col justify-between gap-0 py-3 border-b border-neutral-900"
               >
-                <div className="flex gap-4">
+                <div className="flex gap-4 lg:items-center items-start lg:flex-row flex-col">
                   <div className=" max-w-sm homevideo">
                     <Link to={`/videopage/${video._id}`} className=" w-96 h-60">
                       <SmallVideo vid={`/uploads/${video.fileName}`} />
@@ -93,7 +93,7 @@ export default function WatchHistory() {
                   </div>
                 </div>
 
-                <div className="text-blue-500 flex items-center gap-2">
+                <div className="text-blue-500 mt-2 flex items-center gap-2">
                   <RxCross1 className=" cursor-pointer" />
                   <p
                     className=" cursor-pointer"

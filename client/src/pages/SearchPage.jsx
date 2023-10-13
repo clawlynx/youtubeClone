@@ -49,7 +49,7 @@ export default function SearchPage() {
           return (
             <div
               key={video._id}
-              className="w-96 px-3 flex gap-5 justify-between history py-3 border-b border-neutral-800"
+              className="w-96 px-3 flex gap-5 justify-between history py-3 border-b border-neutral-800 md:flex-row flex-col"
             >
               <div className="max-w-sm homevideo">
                 <Link

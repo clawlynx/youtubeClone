@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   showBigBar: true,
   singleVideoPage: false,
-  categoryList: true,
+  categoryList: false,
 };
 
 const toggleBarSlice = createSlice({

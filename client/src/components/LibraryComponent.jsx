@@ -10,7 +10,11 @@ export default function LibraryComponent({ vidarray }) {
     <div className="py-4">
       {vidarray?.length > 0 ? (
         <>
-          <div className={`flex ${singleVideoPage ? "gap-20" : "gap-5"} `}>
+          <div
+            className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${
+              singleVideoPage ? "gap-20" : "gap-5"
+            } `}
+          >
             {vidarray.slice(0, 4).map((video) => (
               <div key={video._id} className=" w-96">
                 <Link to={`/videopage/${video._id}`}>

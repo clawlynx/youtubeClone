@@ -120,7 +120,7 @@ export default function SingleVideoPage() {
   }, [id]);
 
   return (
-    <div className="ps-28 py-5 flex gap-5 justify-between min-h-screen">
+    <div className="2xl:ps-28 lg:ps-14 sm:ps-6 py-5 pe-6 flex md:flex-row flex-col gap-5 justify-between min-h-screen">
       {user?._id !== singleVideo?.accountHolder &&
         !isSubscribed &&
         !singleVideo?.uploader?.subscriberList.includes(user?.email) && (
@@ -137,7 +137,7 @@ export default function SingleVideoPage() {
         </div>
         <div className=" py-3 px-2">
           <p className=" text-2xl">{singleVideo?.videoName}</p>
-          <div className="flex items-center justify-between border-b border-neutral-800">
+          <div className="flex sm:flex-row flex-col sm:items-center items-start justify-between border-b border-neutral-800">
             <div className=" flex py-3 gap-2">
               <p className=" text-gray-400">{singleVideo?.views} views</p>
               <p className=" text-gray-400">.</p>
@@ -186,7 +186,7 @@ export default function SingleVideoPage() {
           <Comments />
         </div>
       </div>
-      <div className="more-video-container">
+      <div className="more-video-container ps-6">
         <h2 className=" text-lg">More videos</h2>
 
         {videos?.length > 0 &&
@@ -194,7 +194,7 @@ export default function SingleVideoPage() {
             return (
               <div
                 key={video._id}
-                className=" flex gap-2 py-4 border-b border-neutral-800"
+                className=" flex xl:flex-row flex-col gap-2 ps-6 py-4 border-b border-neutral-800"
               >
                 <div className="more-videos ">
                   <Link to={`/videopage/${video._id}`}>

@@ -80,9 +80,9 @@ export default function Channel() {
                 <Link
                   to={`/videopage/${video._id}`}
                   key={video._id}
-                  className=" w-96 flex justify-start channelpage py-2 border-b border-neutral-900 mb-3"
+                  className=" w-96 flex lg:flex-row flex-col justify-start items-center channelpage py-2 border-b border-neutral-900 mb-3"
                 >
-                  <div className="max-w-sm overflow-hidden channelvideo">
+                  <div className="max-w-sm overflow-hidden  channelvideo">
                     <div className="">
                       <SmallVideo vid={`/uploads/${video.fileName}`} />
                     </div>

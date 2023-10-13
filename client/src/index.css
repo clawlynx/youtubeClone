@@ -10,6 +10,11 @@
   height: 92vh;
   min-width: 15rem;
 }
+@media (max-width: 768px) {
+  .bigsidebar {
+    min-width: 12rem;
+  }
+}
 ::-webkit-scrollbar {
   width: 0.5rem;
   height: 0.5rem;
@@ -21,16 +26,14 @@
 .videodiv {
   height: 70vh;
 }
-.history {
-  width: 85vw;
-}
+
 .channelpage {
   width: 85vw;
 }
 .more-video-container {
-  min-width: 30rem;
   max-width: 30rem;
 }
+
 .channelvideo {
   min-width: 24rem;
 }
@@ -39,8 +42,19 @@
 }
 .more-videos {
   max-width: 15rem;
-  min-width: 15rem;
 }
+@media (min-width: 1536px) {
+  .more-video-container {
+    min-width: 30rem;
+  }
+  .more-videos {
+    min-width: 15rem;
+  }
+  .history {
+    width: 85vw;
+  }
+}
+
 .homevideo {
   min-width: 24rem;
 }
